@@ -94,13 +94,14 @@ def add_saldo():
         nome = forme.lineEdit_4.text()
         valor_inserir = float(forme.lineEdit_2.text())
         valor_atualizado = valor_atual + valor_inserir
-        numero = forme.lineEdit.text()
+        # numero = forme.lineEdit.text()
+        numero_comanda = forme.lineEdit.text()
 
         if nome != "":
 
             banco = sqlite3.connect('banco_dados.db')
             cursor = banco.cursor()
-            cursor.execute(f"UPDATE comandas SET nome = '{nome}', valor = '{valor_atualizado:.2f}' WHERE numero = {numero}")
+            cursor.execute(f"UPDATE comandas SET nome = '{nome}', valor = '{valor_atualizado:.2f}' WHERE numero = {numero_comanda}")
             # cursor.execute("UPDATE comandas SET nome = '{}', valor = '{}' WHERE numero = {}".format(nome, valor_atualizado, numero))
 
             banco.commit()
@@ -109,7 +110,7 @@ def add_saldo():
             banco = sqlite3.connect('banco_dados.db')
             cursor = banco.cursor()
             # cursor.execute("UPDATE comandas SET nome = '{}', valor = '{}' WHERE numero = {}".format(nome_db, valor_atualizado, numero))
-            cursor.execute(f"UPDATE comandas SET nome = '{nome_db}', valor = '{valor_atualizado:.2f}' WHERE numero = {numero}")
+            cursor.execute(f"UPDATE comandas SET nome = '{nome_db}', valor = '{valor_atualizado:.2f}' WHERE numero = {numero_comanda}")
 
             banco.commit()
 
@@ -119,6 +120,8 @@ def add_saldo():
         forme.lineEdit.setText("")
         forme.lineEdit_2.setText("")
         forme.lineEdit_4.setText("")
+        status = f"Comanda {numero_comanda} agora tem R$ {valor_atualizado:.2f} de saldo!"
+        forme.label_4.setText(status)
         listar_dados()
 
 
@@ -185,6 +188,7 @@ def cancelar():
     lista_produto.clear()
     add.label_5.setText("R$ 0.00")
     add.label_7.setText("R$ 0.00")
+    forme.lineEdit_3.setText("")
     add.listWidget.clear()
     add.listWidget_2.clear()
     add.close()
@@ -196,6 +200,14 @@ def zerar():
     cursor = banco.cursor()
     cursor.execute("UPDATE comandas SET valor = '{}', nome = '' WHERE numero = {}".format(valor, numero_comanda))
     banco.commit()
+    
+    forme.label_4.setText("Comanda "+numero_comanda+" foi zerada com sucesso!")
+    forme.label.setText("")
+    forme.label_3.setText("")
+    forme.label_2.setText("")
+    forme.lineEdit.setText("")
+    forme.lineEdit_2.setText("")
+    forme.lineEdit_4.setText("")
     listar_dados()
 
 def erro():
@@ -350,8 +362,6 @@ ero = uic.loadUi("erro.ui")
 forme.show()
 
 iniciar()
-# listar_dados()
-
 # threading.Thread(target=hora_atualiza).start()
 
 add.pushButton.clicked.connect(add_produto)

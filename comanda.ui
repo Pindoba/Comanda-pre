@@ -48,7 +48,7 @@ border:0px solid #566963;</string>
          <enum>QTabWidget::North</enum>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <property name="iconSize">
          <size>
@@ -498,6 +498,36 @@ QPushButton:active {
           </property>
           <property name="text">
            <string>Zerar</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_4">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>510</y>
+            <width>701</width>
+            <height>51</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>19</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">
+color: rgb(187, 255, 224);
+color: rgb(0, 255, 0);
+background-color:#807979;
+border:1px solid #566963;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </widget>
