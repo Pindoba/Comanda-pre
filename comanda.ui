@@ -102,20 +102,8 @@ border:0px solid #566963;
               <number>39</number>
              </attribute>
              <attribute name="horizontalHeaderDefaultSectionSize">
-              <number>158</number>
+              <number>214</number>
              </attribute>
-             <column>
-              <property name="text">
-               <string>ID</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
              <column>
               <property name="text">
                <string>N° COMANDA</string>

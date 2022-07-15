@@ -6,8 +6,9 @@ conexao = pymysql.connect(host='DESKTOP-IDQTBUT',user='root', database='banco_da
 print("tudo certo meu consagrado")
 
 
-with conexao.cursor() as c:
-    sql = "select * from comandas"
-    c.execute(sql)
-    res = c.fetchall()
-    print(res)
+# with conexao.cursor() as c:
+banco = conexao.cursor()
+sql = "select * from comandas"
+banco.execute(sql)
+res = banco.fetchall()
+print(res)

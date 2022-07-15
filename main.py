@@ -1,17 +1,13 @@
 import datetime
 from PyQt5 import uic, QtWidgets
 import sqlite3
-import pyodbc
 import time
 import threading
+import pymysql
+
+conexao = pymysql.connect(host='DESKTOP-IDQTBUT',user='root', database='banco_dados', password='pindoba10')
 
 
-dados_conexao = (
-    "Driver={SQL Server};"
-    "Server=DESKTOP-IDQTBUT;"
-    "DAtabase=banco_dados;"
-)
-conexao = pyodbc.connect(dados_conexao)
 
 numero_id = 0
 
@@ -19,16 +15,16 @@ lista_preco = []
 lista_produto = []
 
 def iniciar():
-    data = datetime.datetime.now()
-    data_str = data.strftime("%d/%m/%y")
-    nome = 'RAUL ROCK BAR'
-    banco = sqlite3.connect('banco_dados.db')
-    cursor = banco.cursor()
-    cursor.execute(
-        "CREATE TABLE IF NOT EXISTS comandas (id INTEGER PRIMARY KEY AUTOINCREMENT, numero integer, valor REAL, nome text)")
-    cursor.execute("CREATE TABLE IF NOT EXISTS produtos (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo integer, nome text, valor REAL )")
-    banco.commit()
-    banco.close()
+    # data = datetime.datetime.now()
+    # data_str = data.strftime("%d/%m/%y")
+    # nome = 'RAUL ROCK BAR'
+    # banco = sqlite3.connect('banco_dados.db')
+    # cursor = banco.cursor()
+    # cursor.execute(
+    #     "CREATE TABLE IF NOT EXISTS comandas (id INTEGER PRIMARY KEY AUTOINCREMENT, numero integer, valor REAL, nome text)")
+    # cursor.execute("CREATE TABLE IF NOT EXISTS produtos (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo integer, nome text, valor REAL )")
+    # banco.commit()
+    # banco.close()
     listar_dados()
 
 
@@ -37,17 +33,17 @@ def add_produto():
     global lista_produto
     # numero_comanda = int(forme.lineEdit_3.text())
 
-    banco = sqlite3.connect('banco_dados.db')
-    comanda = banco.cursor()
-    comanda.execute("SELECT valor FROM comandas WHERE numero = '"+forme.lineEdit_3.text()+"'")
-    dados_comanda = comanda.fetchall()
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
+    cursor.execute("SELECT valor FROM comandas WHERE numero_comanda = '"+forme.lineEdit_3.text()+"'")
+    dados_comanda = cursor.fetchall()
     valor_atual = dados_comanda[0][0]
     # codigo_produto = add.lineEdit.text()
     # add.label_6.setText("R$ "+str(dados_comanda[0][0]))
     # print(dados_comanda[0][0])
 
-    banco = sqlite3.connect('banco_dados.db')
-    cursor = banco.cursor()
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
     cursor.execute("SELECT nome, valor FROM produtos WHERE codigo = '"+add.lineEdit.text()+"'")
     dados_produto = cursor.fetchall()
     # print(lista_produto)
@@ -93,35 +89,36 @@ def add_saldo():
     if forme.lineEdit.text() != "" and forme.lineEdit_2.text() != "":
         
 
-        banco = sqlite3.connect('banco_dados.db')
-        comanda = banco.cursor()
-        comanda.execute("SELECT valor, nome FROM comandas WHERE numero = '"+forme.lineEdit.text()+"'")
-        dados_comanda = comanda.fetchall()
+        banco = conexao.cursor()
+        cursor = conexao.cursor()
+        cursor.execute("SELECT valor, nome FROM comandas WHERE numero_comanda = '"+forme.lineEdit.text()+"'")
+        dados_comanda = cursor.fetchall()
         valor_atual = dados_comanda[0][0]
         nome_db = dados_comanda[0][1]
+        print(valor_atual)
+        print(nome_db)
 
         nome = forme.lineEdit_4.text()
         valor_inserir = float(forme.lineEdit_2.text())
         valor_atualizado = valor_atual + valor_inserir
-        # numero = forme.lineEdit.text()
         numero_comanda = forme.lineEdit.text()
 
         if nome != "":
 
             banco = sqlite3.connect('banco_dados.db')
             cursor = banco.cursor()
-            cursor.execute(f"UPDATE comandas SET nome = '{nome}', valor = '{valor_atualizado:.2f}' WHERE numero = {numero_comanda}")
+            cursor.execute(f"UPDATE comandas SET nome = '{nome}', valor = '{valor_atualizado:.2f}' WHERE numero_comanda = {numero_comanda}")
             # cursor.execute("UPDATE comandas SET nome = '{}', valor = '{}' WHERE numero = {}".format(nome, valor_atualizado, numero))
 
             banco.commit()
 
         else:
-            banco = sqlite3.connect('banco_dados.db')
-            cursor = banco.cursor()
-            # cursor.execute("UPDATE comandas SET nome = '{}', valor = '{}' WHERE numero = {}".format(nome_db, valor_atualizado, numero))
-            cursor.execute(f"UPDATE comandas SET nome = '{nome_db}', valor = '{valor_atualizado:.2f}' WHERE numero = {numero_comanda}")
-
-            banco.commit()
+            banco = conexao.cursor()
+            cursor = conexao.cursor()
+            cursor.execute(f"UPDATE comandas SET nome = '{nome_db}', valor = '{valor_atualizado:.2f}' WHERE numero_comanda = {numero_comanda}")
+            # banco.commit()
+            banco.close()
+            
 
         forme.label.setText("")
         forme.label_3.setText("")
@@ -136,10 +133,10 @@ def add_saldo():
 
 def ler():
     if forme.lineEdit.text() != "" or forme.lineEdit_2.text() != "":
-        banco = sqlite3.connect('banco_dados.db')
-        comanda = banco.cursor()
-        comanda.execute("SELECT valor, nome FROM comandas WHERE numero = '"+forme.lineEdit.text()+"'")
-        dados_comanda = comanda.fetchall()
+        banco = conexao.cursor()
+        cursor = conexao.cursor()
+        cursor.execute("SELECT valor, nome FROM comandas WHERE numero_comanda = '"+forme.lineEdit.text()+"'")
+        dados_comanda = cursor.fetchall()
         valor = dados_comanda[0][0]
         nome = dados_comanda[0][1]
         forme.label.setText(forme.lineEdit.text())
@@ -149,10 +146,10 @@ def ler():
     
 def janela_comanda():
     add.show()
-    banco = sqlite3.connect('banco_dados.db')
-    comanda = banco.cursor()
-    comanda.execute("SELECT valor, nome FROM comandas WHERE numero = '"+forme.lineEdit_3.text()+"'")
-    dados_comanda = comanda.fetchall()
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
+    cursor.execute("SELECT valor, nome FROM comandas WHERE numero_comanda = '"+forme.lineEdit_3.text()+"'")
+    dados_comanda = cursor.fetchall()
     valor_atual = dados_comanda[0][0]
     add.label_6.setText("R$ "+str(dados_comanda[0][0]))
     add.label_10.setText(dados_comanda[0][1])
@@ -164,10 +161,10 @@ def confirmar_pedido():
         global lista_preco
     global lista_produto
     numero_comanda = forme.lineEdit_3.text()
-    banco = sqlite3.connect('banco_dados.db')
-    valor_comanda = banco.cursor()
-    valor_comanda.execute("SELECT valor FROM comandas WHERE numero = '"+numero_comanda+"'")
-    dados_comanda = valor_comanda.fetchall()
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
+    cursor.execute("SELECT valor FROM comandas WHERE numero_comanda = '"+numero_comanda+"'")
+    dados_comanda = cursor.fetchall()
     valor_atual = dados_comanda[0][0]
     soma = sum(lista_preco)
     # print(valor_atual)
@@ -177,11 +174,11 @@ def confirmar_pedido():
     saldo_final = valor_atual - soma
  
     # numero = int(forme.lineEdit_3.text())
-    banco = sqlite3.connect('banco_dados.db')
-    cursor = banco.cursor()
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
     # cursor.execute("UPDATE comandas SET valor = '{}' WHERE numero = {}".format(saldo_final, numero_comanda))
-    cursor.execute(f"UPDATE comandas SET valor = '{saldo_final:.2f}' WHERE numero = {numero_comanda}")
-    banco.commit()
+    cursor.execute(f"UPDATE comandas SET valor = '{saldo_final:.2f}' WHERE numero_comanda = {numero_comanda}")
+    banco.close()
     add.label_5.setText("R$ 0.00")
     add.label_7.setText("R$ 0.00")
     lista_preco.clear()
@@ -205,10 +202,10 @@ def cancelar():
 def zerar():
     valor = "0"
     numero_comanda = forme.lineEdit.text()
-    banco = sqlite3.connect('banco_dados.db')
-    cursor = banco.cursor()
-    cursor.execute("UPDATE comandas SET valor = '{}', nome = '' WHERE numero = {}".format(valor, numero_comanda))
-    banco.commit()
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
+    cursor.execute("UPDATE comandas SET valor = '{}', nome = '' WHERE numero_numero = {}".format(valor, numero_comanda))
+    banco.close()
     
     forme.label_4.setText("Comanda "+numero_comanda+" foi zerada com sucesso!")
     forme.label.setText("")
@@ -225,16 +222,17 @@ def erro():
 
 
 def listar_dados():
-    banco = sqlite3.connect('banco_dados.db')
-    cursor = banco.cursor()
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
     cursor.execute("SELECT * FROM comandas")
     dados_lidos = cursor.fetchall()
     forme.tableWidget.setRowCount(len(dados_lidos))
-    forme.tableWidget.setColumnCount(4)
+    forme.tableWidget.setColumnCount(3)
     banco.close()
+    print(dados_lidos)
     
     for i in range(0, len(dados_lidos)):
-        for j in range(1, 4):
+        for j in range(0, 2):
             forme.tableWidget.setItem(i, j, QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
             
     
