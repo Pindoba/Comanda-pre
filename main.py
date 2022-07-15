@@ -1,8 +1,17 @@
 import datetime
 from PyQt5 import uic, QtWidgets
 import sqlite3
+import pyodbc
 import time
 import threading
+
+
+dados_conexao = (
+    "Driver={SQL Server};"
+    "Server=DESKTOP-IDQTBUT;"
+    "DAtabase=banco_dados;"
+)
+conexao = pyodbc.connect(dados_conexao)
 
 numero_id = 0
 
