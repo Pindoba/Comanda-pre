@@ -115,6 +115,9 @@ border:0px solid #566963;
                 <bold>true</bold>
                </font>
               </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
              </column>
              <column>
               <property name="text">
@@ -127,6 +130,25 @@ border:0px solid #566963;
                 <bold>true</bold>
                </font>
               </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+              <property name="background">
+               <color>
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </property>
+              <property name="foreground">
+               <brush brushstyle="NoBrush">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>25</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </property>
              </column>
              <column>
               <property name="text">
@@ -138,6 +160,9 @@ border:0px solid #566963;
                 <weight>75</weight>
                 <bold>true</bold>
                </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
               </property>
              </column>
             </widget>

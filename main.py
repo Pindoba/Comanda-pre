@@ -31,20 +31,20 @@ def iniciar():
 def add_produto():
     global lista_preco
     global lista_produto
-    # numero_comanda = int(forme.lineEdit_3.text())
+    numero_comanda = forme.lineEdit_3.text()
 
     banco = conexao.cursor()
     cursor = conexao.cursor()
-    cursor.execute("SELECT valor FROM comandas WHERE numero_comanda = '"+forme.lineEdit_3.text()+"'")
+    cursor.execute(f"SELECT valor FROM comandas WHERE numero_comanda ={numero_comanda}")
     dados_comanda = cursor.fetchall()
     valor_atual = dados_comanda[0][0]
     # codigo_produto = add.lineEdit.text()
     # add.label_6.setText("R$ "+str(dados_comanda[0][0]))
     # print(dados_comanda[0][0])
-
+    numero_produto = add.lineEdit.text()
     banco = conexao.cursor()
     cursor = conexao.cursor()
-    cursor.execute("SELECT nome, valor FROM produtos WHERE codigo = '"+add.lineEdit.text()+"'")
+    cursor.execute(f"SELECT nome, valor FROM produtos WHERE codigo_produto = {numero_produto}")
     dados_produto = cursor.fetchall()
     # print(lista_produto)
     # print(dados_produto[0][0])
@@ -105,18 +105,18 @@ def add_saldo():
 
         if nome != "":
 
-            banco = sqlite3.connect('banco_dados.db')
-            cursor = banco.cursor()
+            banco = conexao.cursor()
+            cursor = conexao.cursor()
             cursor.execute(f"UPDATE comandas SET nome = '{nome}', valor = '{valor_atualizado:.2f}' WHERE numero_comanda = {numero_comanda}")
-            # cursor.execute("UPDATE comandas SET nome = '{}', valor = '{}' WHERE numero = {}".format(nome, valor_atualizado, numero))
-
-            banco.commit()
+            cursor.execute("commit;")
+            banco.close()
 
         else:
             banco = conexao.cursor()
             cursor = conexao.cursor()
             cursor.execute(f"UPDATE comandas SET nome = '{nome_db}', valor = '{valor_atualizado:.2f}' WHERE numero_comanda = {numero_comanda}")
             # banco.commit()
+            cursor.execute("commit;")
             banco.close()
             
 
@@ -178,6 +178,7 @@ def confirmar_pedido():
     cursor = conexao.cursor()
     # cursor.execute("UPDATE comandas SET valor = '{}' WHERE numero = {}".format(saldo_final, numero_comanda))
     cursor.execute(f"UPDATE comandas SET valor = '{saldo_final:.2f}' WHERE numero_comanda = {numero_comanda}")
+    cursor.execute("commit;")
     banco.close()
     add.label_5.setText("R$ 0.00")
     add.label_7.setText("R$ 0.00")
@@ -204,7 +205,8 @@ def zerar():
     numero_comanda = forme.lineEdit.text()
     banco = conexao.cursor()
     cursor = conexao.cursor()
-    cursor.execute("UPDATE comandas SET valor = '{}', nome = '' WHERE numero_numero = {}".format(valor, numero_comanda))
+    cursor.execute("UPDATE comandas SET valor = '{}', nome = '' WHERE numero_comanda = {}".format(valor, numero_comanda))
+    cursor.execute("commit;")
     banco.close()
     
     forme.label_4.setText("Comanda "+numero_comanda+" foi zerada com sucesso!")
@@ -232,13 +234,13 @@ def listar_dados():
     print(dados_lidos)
     
     for i in range(0, len(dados_lidos)):
-        for j in range(0, 2):
+        for j in range(0, 3):
             forme.tableWidget.setItem(i, j, QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
             
     
-    # for i in range(1, len(dados_lidos)):
-    #     for j in range(2, 3):
-    #         forme.tableWidget.setItem(i, j, QtWidgets.QTableWidgetItem('Falta '+str(falta[0][i])))
+    for i in range(0, len(dados_lidos)):
+        for j in range(1, 2):
+            forme.tableWidget.setItem(i, j, QtWidgets.QTableWidgetItem('R$  '+str(dados_lidos[i][j])))
     # forme.tableWidget.setItem(0, 2, QtWidgets.QTableWidgetItem('PRÓXIMO'))
     # print(dados_lidos[0][1])
 
