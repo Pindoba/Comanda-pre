@@ -4,6 +4,10 @@ import sqlite3
 import time
 import threading
 import pymysql
+import win32print
+import win32api
+import os
+#implementação impressao
 
 conexao = pymysql.connect(host='DESKTOP-IDQTBUT',user='root', database='banco_dados', password='pindoba10')
 
@@ -13,6 +17,7 @@ numero_id = 0
 
 lista_preco = []
 lista_produto = []
+id_produto = []
 
 def iniciar():
     # data = datetime.datetime.now()
@@ -37,11 +42,12 @@ def add_produto():
     cursor = conexao.cursor()
     cursor.execute(f"SELECT valor FROM comandas WHERE numero_comanda ={numero_comanda}")
     dados_comanda = cursor.fetchall()
-    valor_atual = dados_comanda[0][0]
-    # codigo_produto = add.lineEdit.text()
-    # add.label_6.setText("R$ "+str(dados_comanda[0][0]))
-    # print(dados_comanda[0][0])
+    valor_atual = dados_comanda[0][0]   
     numero_produto = add.lineEdit.text()
+    if int(numero_produto) > 1000 and int(numero_produto) < 2000:
+        id_produto.append(int(numero_produto))
+    else:
+        pass
     banco = conexao.cursor()
     cursor = conexao.cursor()
     cursor.execute(f"SELECT nome, valor FROM produtos WHERE codigo_produto = {numero_produto}")
@@ -156,7 +162,7 @@ def janela_comanda():
     add.label.setText("N°: "+forme.lineEdit_3.text())
 
 def confirmar_pedido():
-    print("ok ate aqui!")
+    # print("ok ate aqui!")
     if add.lineEdit.text() != "":
         global lista_preco
     global lista_produto
@@ -166,17 +172,52 @@ def confirmar_pedido():
     cursor.execute("SELECT valor FROM comandas WHERE numero_comanda = '"+numero_comanda+"'")
     dados_comanda = cursor.fetchall()
     valor_atual = dados_comanda[0][0]
-    soma = sum(lista_preco)
-    # print(valor_atual)
-    # print(sum(lista_preco))
-
-    # nome = forme.lineEdit_4.text()
+    soma = sum(lista_preco)  
     saldo_final = valor_atual - soma
- 
-    # numero = int(forme.lineEdit_3.text())
+
+    data = datetime.datetime.now()
+    data_str = data.strftime("%d/%m/%y")
+    hora = datetime.datetime.now()
+    hora_str = hora.strftime("%H:%M")
+
+    cursor2 = conexao.cursor()
+    cursor2.execute("SELECT nome FROM comandas WHERE numero_comanda = '"+numero_comanda+"'")
+    nome_comanda = cursor2.fetchall()
+    print(id_produto)
+    n = 0
+    for i in id_produto:
+        
+        # if id_produto[n] > 1000 and id_produto[n] < 2000:
+            
+            # for j in range(len(id_produto)):
+                cursor = conexao.cursor()
+                cursor.execute("SELECT nome FROM produtos WHERE codigo_produto = '"+str(id_produto[n])+"'")
+                dados_comanda = cursor.fetchall()
+
+                print(n)
+                arquivo = open("print.txt", "w")
+                # arquivo.write(str(n))
+                arquivo.write("Comanda: "+numero_comanda)
+                arquivo.write("\n\n"+dados_comanda[0][0]+"\n\n")
+                arquivo.write("\n"+nome_comanda[0][0]+"\n\n")
+                arquivo.write("HORA: "+hora_str)
+                arquivo.write("\nDATA: "+ data_str)
+                arquivo.write("\n          ...")
+                arquivo.close()
+
+                lista_impressoras = win32print.EnumPrinters(2)
+                impressora = lista_impressoras[4]
+                win32print.SetDefaultPrinter(impressora[2])
+                win32api.ShellExecute(0, "print", "print.txt", None, ".", 0)
+                n = n+1        
+                time.sleep(0.4)
+        # else:
+        #     n = n+1
+        
+
+    
     banco = conexao.cursor()
     cursor = conexao.cursor()
-    # cursor.execute("UPDATE comandas SET valor = '{}' WHERE numero = {}".format(saldo_final, numero_comanda))
     cursor.execute(f"UPDATE comandas SET valor = '{saldo_final:.2f}' WHERE numero_comanda = {numero_comanda}")
     cursor.execute("commit;")
     banco.close()
@@ -184,6 +225,7 @@ def confirmar_pedido():
     add.label_7.setText("R$ 0.00")
     lista_preco.clear()
     lista_produto.clear()
+    id_produto.clear()
     add.listWidget.clear()
     add.listWidget_2.clear()
     forme.lineEdit_3.setText("")
