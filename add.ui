@@ -189,7 +189,7 @@ QPushButton:active {
          <widget class="QLabel" name="label_9">
           <property name="geometry">
            <rect>
-            <x>180</x>
+            <x>200</x>
             <y>20</y>
             <width>51</width>
             <height>20</height>
@@ -211,7 +211,7 @@ QPushButton:active {
            <rect>
             <x>0</x>
             <y>40</y>
-            <width>181</width>
+            <width>201</width>
             <height>311</height>
            </rect>
           </property>
@@ -228,9 +228,9 @@ background-color: rgb(243, 243, 243);</string>
          <widget class="QListWidget" name="listWidget_2">
           <property name="geometry">
            <rect>
-            <x>170</x>
+            <x>190</x>
             <y>40</y>
-            <width>91</width>
+            <width>71</width>
             <height>311</height>
            </rect>
           </property>
@@ -449,7 +449,7 @@ QPushButton:active {
           <rect>
            <x>10</x>
            <y>10</y>
-           <width>131</width>
+           <width>271</width>
            <height>31</height>
           </rect>
          </property>

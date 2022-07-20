@@ -89,25 +89,73 @@ def add_produto():
 
     # listar_dados()
     # forme.lineEdit.setText("")
+def entrar_guarida():
+    nome = forme.lineEdit_5.text()
+    senha = forme.lineEdit_6.text()
+
+    if nome == "welton" and senha == "123456":
+        forme.label.setText("")
+        guarida.show()
+
+    else:
+        forme.label.setText("Usuário ou Senha incorreto")
+
+def alterar_nome():
+    numero_comanda = forme.lineEdit_8.text()
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
+    cursor.execute(f"SELECT nome FROM comandas WHERE numero_comanda = {numero_comanda}")
+    dados_comanda = cursor.fetchall()
+    # valor_atual = dados_comanda[0][0]
+    # nome_db = dados_comanda[0][0]
+    nome = forme.lineEdit_7.text()       
+        
+    if nome != "":
+    
+        banco = conexao.cursor()
+        cursor = conexao.cursor()
+        cursor.execute(f"UPDATE comandas SET nome = '{nome}' WHERE numero_comanda = {numero_comanda}")
+        cursor.execute("commit;")
+        banco.close()
+        forme.label_4.setText("Nome alterado com sucesso!")
+        forme.lineEdit_7.setText("")
+        forme.lineEdit_8.setText("")
+        listar_dados()
+        
+    else:
+        forme.label_4.setText("Nenhum nome foi digitado!")
+        forme.lineEdit_7.setText("")
+        forme.lineEdit_8.setText("")
+        
+
+        # else:
+        #     banco = conexao.cursor()
+        #     cursor = conexao.cursor()
+        #     cursor.execute(f"UPDATE comandas SET nome = '{nome_db}' WHERE numero_comanda = {numero_comanda}")
+        #     # banco.commit()
+        #     cursor.execute("commit;")
+        #     banco.close()
+
+    
 
 
 def add_saldo():
-    if forme.lineEdit.text() != "" and forme.lineEdit_2.text() != "":
+    if guarida.lineEdit.text() != "" and guarida.lineEdit_2.text() != "":
         
 
         banco = conexao.cursor()
         cursor = conexao.cursor()
-        cursor.execute("SELECT valor, nome FROM comandas WHERE numero_comanda = '"+forme.lineEdit.text()+"'")
+        cursor.execute("SELECT valor, nome FROM comandas WHERE numero_comanda = '"+guarida.lineEdit.text()+"'")
         dados_comanda = cursor.fetchall()
         valor_atual = dados_comanda[0][0]
         nome_db = dados_comanda[0][1]
-        print(valor_atual)
-        print(nome_db)
+        # print(valor_atual)
+        # print(nome_db)
 
-        nome = forme.lineEdit_4.text()
-        valor_inserir = float(forme.lineEdit_2.text())
+        nome = guarida.lineEdit_4.text()
+        valor_inserir = float(guarida.lineEdit_2.text())
         valor_atualizado = valor_atual + valor_inserir
-        numero_comanda = forme.lineEdit.text()
+        numero_comanda = guarida.lineEdit.text()
 
         if nome != "":
 
@@ -126,28 +174,28 @@ def add_saldo():
             banco.close()
             
 
-        forme.label.setText("")
-        forme.label_3.setText("")
-        forme.label_2.setText("")
-        forme.lineEdit.setText("")
-        forme.lineEdit_2.setText("")
-        forme.lineEdit_4.setText("")
+        guarida.label.setText("")
+        guarida.label_3.setText("")
+        guarida.label_2.setText("")
+        guarida.lineEdit.setText("")
+        guarida.lineEdit_2.setText("")
+        guarida.lineEdit_4.setText("")
         status = f"Comanda {numero_comanda} agora tem R$ {valor_atualizado:.2f} de saldo!"
-        forme.label_4.setText(status)
+        guarida.label_4.setText(status)
         listar_dados()
 
 
 def ler():
-    if forme.lineEdit.text() != "" or forme.lineEdit_2.text() != "":
+    if guarida.lineEdit.text() != "" or guarida.lineEdit_2.text() != "":
         banco = conexao.cursor()
         cursor = conexao.cursor()
-        cursor.execute("SELECT valor, nome FROM comandas WHERE numero_comanda = '"+forme.lineEdit.text()+"'")
+        cursor.execute("SELECT valor, nome FROM comandas WHERE numero_comanda = '"+guarida.lineEdit.text()+"'")
         dados_comanda = cursor.fetchall()
         valor = dados_comanda[0][0]
         nome = dados_comanda[0][1]
-        forme.label.setText(forme.lineEdit.text())
-        forme.label_3.setText(nome)
-        forme.label_2.setText("R$ "+str(valor))
+        guarida.label.setText(guarida.lineEdit.text())
+        guarida.label_3.setText(nome)
+        guarida.label_2.setText("R$ "+str(valor))
 
     
 def janela_comanda():
@@ -244,20 +292,20 @@ def cancelar():
 
 def zerar():
     valor = "0"
-    numero_comanda = forme.lineEdit.text()
+    numero_comanda = guarida.lineEdit.text()
     banco = conexao.cursor()
     cursor = conexao.cursor()
     cursor.execute("UPDATE comandas SET valor = '{}', nome = '' WHERE numero_comanda = {}".format(valor, numero_comanda))
     cursor.execute("commit;")
     banco.close()
     
-    forme.label_4.setText("Comanda "+numero_comanda+" foi zerada com sucesso!")
-    forme.label.setText("")
-    forme.label_3.setText("")
-    forme.label_2.setText("")
-    forme.lineEdit.setText("")
-    forme.lineEdit_2.setText("")
-    forme.lineEdit_4.setText("")
+    guarida.label_4.setText("Comanda "+numero_comanda+" foi zerada com sucesso!")
+    guarida.label.setText("")
+    guarida.label_3.setText("")
+    guarida.label_2.setText("")
+    guarida.lineEdit.setText("")
+    guarida.lineEdit_2.setText("")
+    guarida.lineEdit_4.setText("")
     listar_dados()
 
 def erro():
@@ -409,6 +457,7 @@ app = QtWidgets.QApplication([])
 forme = uic.loadUi("comanda.ui")
 add = uic.loadUi("add.ui")
 ero = uic.loadUi("erro.ui")
+guarida = uic.loadUi("guarida.ui")
 # historico = uic.loadUi("historico.ui")
 forme.show()
 
@@ -416,14 +465,16 @@ iniciar()
 # threading.Thread(target=hora_atualiza).start()
 
 add.pushButton.clicked.connect(add_produto)
-forme.pushButton_7.clicked.connect(zerar)
+guarida.pushButton_7.clicked.connect(zerar)
 add.pushButton_3.clicked.connect(cancelar)
 forme.pushButton_2.clicked.connect(janela_comanda)
 add.pushButton_2.clicked.connect(confirmar_pedido)
-# forme.pushButton.clicked.connect(cantou)
-forme.pushButton.clicked.connect(add_saldo)
-forme.pushButton_3.clicked.connect(ler)
+forme.pushButton_4.clicked.connect(entrar_guarida)
+guarida.pushButton.clicked.connect(add_saldo)
+guarida.pushButton_3.clicked.connect(ler)
 ero.pushButton.clicked.connect(erro)
+forme.pushButton_5.clicked.connect(alterar_nome)
+
 
 app.exec_()
 

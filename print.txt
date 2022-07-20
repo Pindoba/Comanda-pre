@@ -1,10 +1,10 @@
 Comanda: 0101
 
-Feijao tropeiro
+Carne de sol com macaxeira
 
 
-WELTON, MESA 03
+ADRIANO MESA 03
 
-HORA: 02:35
-DATA: 18/07/22
+HORA: 17:22
+DATA: 20/07/22
           ...
