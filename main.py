@@ -7,21 +7,32 @@ import pymysql
 import win32print
 import win32api
 import os
-#implementação impressao
+import bcrypt
+import util
+
+
+data = datetime.datetime.now()
+data_str = data.strftime("%d/%m/%y")
+hora = datetime.datetime.now()
+hora_str = hora.strftime("%H:%M:%S")
+data_hora = data_str + " " +hora_str
+
 
 conexao = pymysql.connect(host='DESKTOP-IDQTBUT',user='root', database='banco_dados', password='pindoba10')
 
+# senha = util.criar_senha('123456')
+# print(senha)
+# entrar = str(input('Digite a senha certa:\n'))
+# senhadb = '123456'
+# login_ok = util.verificar_senha(entrar,senha)
 
-
-numero_id = 0
 
 lista_preco = []
 lista_produto = []
 id_produto = []
 
 def iniciar():
-    # data = datetime.datetime.now()
-    # data_str = data.strftime("%d/%m/%y")
+
     # nome = 'RAUL ROCK BAR'
     # banco = sqlite3.connect('banco_dados.db')
     # cursor = banco.cursor()
@@ -30,9 +41,34 @@ def iniciar():
     # cursor.execute("CREATE TABLE IF NOT EXISTS produtos (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo integer, nome text, valor REAL )")
     # banco.commit()
     # banco.close()
+    
     listar_dados()
+    historico()
 
+def criar_user():
+    
+    nome = user.lineEdit.text()
+    senha = user.lineEdit_2.text()
+    nivel = user.lineEdit_3.text()
 
+def salvar_user():
+    nome =  user.lineEdit.text()
+    senha = util.criar_senha(user.lineEdit_2.text())
+    nivel = user.lineEdit_3.text()
+    print(str(senha))
+    print(type(senha))
+
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
+    # cursor.execute(f"INSERT INTO banco_dados.users VALUES (1,'{nome}'), (2,'{senha}'), (3,'{nivel}')")
+    cursor.execute("INSERT INTO users (nome, senha, nivel) VALUES ({}, {}, {})".format(nome,senha,nivel))
+
+    # cursor.execute(f"INSERT INTO banco_dados.users (nome, senha, nivel) VALUES ('{nome}', {senha}, '{nivel}')")
+    cursor.execute("commit;")
+    banco.close()
+
+    user.label.setText("Usuário Cadastrado com sucesso!")
+    
 def add_produto():
     global lista_preco
     global lista_produto
@@ -127,31 +163,15 @@ def alterar_nome():
         forme.lineEdit_7.setText("")
         forme.lineEdit_8.setText("")
         
-
-        # else:
-        #     banco = conexao.cursor()
-        #     cursor = conexao.cursor()
-        #     cursor.execute(f"UPDATE comandas SET nome = '{nome_db}' WHERE numero_comanda = {numero_comanda}")
-        #     # banco.commit()
-        #     cursor.execute("commit;")
-        #     banco.close()
-
-    
-
-
 def add_saldo():
     if guarida.lineEdit.text() != "" and guarida.lineEdit_2.text() != "":
         
-
         banco = conexao.cursor()
         cursor = conexao.cursor()
         cursor.execute("SELECT valor, nome FROM comandas WHERE numero_comanda = '"+guarida.lineEdit.text()+"'")
         dados_comanda = cursor.fetchall()
         valor_atual = dados_comanda[0][0]
         nome_db = dados_comanda[0][1]
-        # print(valor_atual)
-        # print(nome_db)
-
         nome = guarida.lineEdit_4.text()
         valor_inserir = float(guarida.lineEdit_2.text())
         valor_atualizado = valor_atual + valor_inserir
@@ -162,16 +182,19 @@ def add_saldo():
             banco = conexao.cursor()
             cursor = conexao.cursor()
             cursor.execute(f"UPDATE comandas SET nome = '{nome}', valor = '{valor_atualizado:.2f}' WHERE numero_comanda = {numero_comanda}")
+            cursor.execute("INSERT INTO historicos (evento, numero_comanda, nome, produto, valor, data) VALUES ('{}', '{}', '{}','{}', {}, '{}')".format("ENTRADA",guarida.lineEdit.text(),nome,"CREDITO",valor_inserir, data_hora))
             cursor.execute("commit;")
             banco.close()
+            historico()
 
         else:
             banco = conexao.cursor()
             cursor = conexao.cursor()
             cursor.execute(f"UPDATE comandas SET nome = '{nome_db}', valor = '{valor_atualizado:.2f}' WHERE numero_comanda = {numero_comanda}")
-            # banco.commit()
+            cursor.execute("INSERT INTO historicos (evento, numero_comanda, nome, produto, valor, data) VALUES ('{}', '{}', '{}','{}', {}, '{}')".format("ENTRADA",guarida.lineEdit.text(),nome_db,"CREDITO",valor_inserir, data_hora))           
             cursor.execute("commit;")
             banco.close()
+            historico()
             
 
         guarida.label.setText("")
@@ -183,7 +206,6 @@ def add_saldo():
         status = f"Comanda {numero_comanda} agora tem R$ {valor_atualizado:.2f} de saldo!"
         guarida.label_4.setText(status)
         listar_dados()
-
 
 def ler():
     if guarida.lineEdit.text() != "" or guarida.lineEdit_2.text() != "":
@@ -197,9 +219,16 @@ def ler():
         guarida.label_3.setText(nome)
         guarida.label_2.setText("R$ "+str(valor))
 
-    
 def janela_comanda():
     add.show()
+    lista_preco.clear()
+    lista_produto.clear()
+    add.label_5.setText("R$ 0.00")
+    add.label_7.setText("R$ 0.00")
+    # forme.lineEdit_3.setText("")
+    add.listWidget.clear()
+    add.listWidget_2.clear()
+    
     banco = conexao.cursor()
     cursor = conexao.cursor()
     cursor.execute("SELECT valor, nome FROM comandas WHERE numero_comanda = '"+forme.lineEdit_3.text()+"'")
@@ -210,7 +239,6 @@ def janela_comanda():
     add.label.setText("N°: "+forme.lineEdit_3.text())
 
 def confirmar_pedido():
-    # print("ok ate aqui!")
     if add.lineEdit.text() != "":
         global lista_preco
     global lista_produto
@@ -223,10 +251,7 @@ def confirmar_pedido():
     soma = sum(lista_preco)  
     saldo_final = valor_atual - soma
 
-    data = datetime.datetime.now()
-    data_str = data.strftime("%d/%m/%y")
-    hora = datetime.datetime.now()
-    hora_str = hora.strftime("%H:%M")
+    
 
     cursor2 = conexao.cursor()
     cursor2.execute("SELECT nome FROM comandas WHERE numero_comanda = '"+numero_comanda+"'")
@@ -259,11 +284,12 @@ def confirmar_pedido():
                 win32api.ShellExecute(0, "print", "print.txt", None, ".", 0)
                 n = n+1        
                 time.sleep(0.4)
-        # else:
-        #     n = n+1
-        
+    indice = 0
+    for i in lista_preco:
+        cursor.execute("INSERT INTO historicos (evento, numero_comanda, nome, produto, valor, data) VALUES ('{}', '{}', '{}','{}', {}, '{}')".format("VENDA",forme.lineEdit_3.text(),add.label_10.text(), lista_produto[indice],lista_preco[indice], data_hora))
+        indice +=1
+    historico()
 
-    
     banco = conexao.cursor()
     cursor = conexao.cursor()
     cursor.execute(f"UPDATE comandas SET valor = '{saldo_final:.2f}' WHERE numero_comanda = {numero_comanda}")
@@ -312,6 +338,8 @@ def erro():
     ero.close()
     cancelar()
 
+def open_user():
+    user.show()
 
 def listar_dados():
     banco = conexao.cursor()
@@ -331,9 +359,21 @@ def listar_dados():
     for i in range(0, len(dados_lidos)):
         for j in range(1, 2):
             forme.tableWidget.setItem(i, j, QtWidgets.QTableWidgetItem('R$  '+str(dados_lidos[i][j])))
-    # forme.tableWidget.setItem(0, 2, QtWidgets.QTableWidgetItem('PRÓXIMO'))
-    # print(dados_lidos[0][1])
-
+   
+def historico():
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
+    cursor.execute("SELECT * FROM historicos")
+    dados_lidos = cursor.fetchall()
+    forme.tableWidget_3.setRowCount(len(dados_lidos))
+    forme.tableWidget_3.setColumnCount(6)
+    banco.close()
+    print(dados_lidos)
+    
+    for i in range(0, len(dados_lidos)):
+        for j in range(0, 6):
+            forme.tableWidget_3.setItem(i, j, QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
+            
 
 # def excluir():
 #     linha = forme.tableWidget.currentRow()
@@ -457,6 +497,7 @@ app = QtWidgets.QApplication([])
 forme = uic.loadUi("comanda.ui")
 add = uic.loadUi("add.ui")
 ero = uic.loadUi("erro.ui")
+user = uic.loadUi("user.ui")
 guarida = uic.loadUi("guarida.ui")
 # historico = uic.loadUi("historico.ui")
 forme.show()
@@ -466,6 +507,7 @@ iniciar()
 
 add.pushButton.clicked.connect(add_produto)
 guarida.pushButton_7.clicked.connect(zerar)
+forme.pushButton_6.clicked.connect(open_user)
 add.pushButton_3.clicked.connect(cancelar)
 forme.pushButton_2.clicked.connect(janela_comanda)
 add.pushButton_2.clicked.connect(confirmar_pedido)
@@ -474,6 +516,7 @@ guarida.pushButton.clicked.connect(add_saldo)
 guarida.pushButton_3.clicked.connect(ler)
 ero.pushButton.clicked.connect(erro)
 forme.pushButton_5.clicked.connect(alterar_nome)
+user.pushButton.clicked.connect(salvar_user)
 
 
 app.exec_()

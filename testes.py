@@ -1,5 +1,6 @@
 
 import pymysql
+import datetime
 
 # conexao = pymysql.connect(host='DESKTOP-IDQTBUT',user='root', database='banco_dados', password='pindoba10')
 
@@ -12,14 +13,17 @@ import pymysql
 # banco.execute(sql)
 # res = banco.fetchall()
 # print(res)
-lista_id = [452,487,1001,32,1540,2,1245]
-lista_imprimir = []
-n = 0
-for id in lista_id:
-    if id > 1000 and id < 2000:
-        print(n)
-    else:
-        n=n+1
+# lista_id = [452,487,1001,32,1540,2,1245]
+# lista_imprimir = []
+# n = 0
+# for id in lista_id:
+#     if id > 1000 and id < 2000:
+#         print(n)
+#     else:
+#         n=n+1
 
-
-
+data = datetime.datetime.now()
+data_str = data.strftime("%d/%m/%y")
+hora = datetime.datetime.now()
+hora_str = hora.strftime("%H:%M")
+print(data)
