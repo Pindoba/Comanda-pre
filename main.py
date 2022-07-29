@@ -53,7 +53,8 @@ def criar_user():
 
 def salvar_user():
     nome =  user.lineEdit.text()
-    senha = util.criar_senha(user.lineEdit_2.text())
+    entrada_senha = str(util.criar_senha(user.lineEdit_2.text())).replace("'","")
+    senha = entrada_senha[1:]
     nivel = user.lineEdit_3.text()
     print(str(senha))
     print(type(senha))
@@ -61,7 +62,7 @@ def salvar_user():
     banco = conexao.cursor()
     cursor = conexao.cursor()
     # cursor.execute(f"INSERT INTO banco_dados.users VALUES (1,'{nome}'), (2,'{senha}'), (3,'{nivel}')")
-    cursor.execute("INSERT INTO users (nome, senha, nivel) VALUES ({}, {}, {})".format(nome,senha,nivel))
+    cursor.execute("INSERT INTO users (nome, senha, nivel) VALUES ('{}', '{}', '{}')".format(nome,senha,nivel))
 
     # cursor.execute(f"INSERT INTO banco_dados.users (nome, senha, nivel) VALUES ('{nome}', {senha}, '{nivel}')")
     cursor.execute("commit;")
@@ -128,8 +129,17 @@ def add_produto():
 def entrar_guarida():
     nome = forme.lineEdit_5.text()
     senha = forme.lineEdit_6.text()
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
+    cursor.execute(f"SELECT senha, nome FROM users WHERE nome = '{nome}'")
+    dados_user = cursor.fetchall()
+    print(dados_user[0][0])
 
-    if nome == "welton" and senha == "123456":
+    senha_verificada = util.verificar_senha(senha, dados_user[0][0])
+    print(senha_verificada)
+
+
+    if nome == dados_user[0][1] and senha_verificada == True:
         forme.label.setText("")
         guarida.show()
 
