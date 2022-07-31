@@ -71,41 +71,42 @@ def salvar_user():
     user.label.setText("Usuário Cadastrado com sucesso!")
     
 def add_produto():
-    global lista_preco
-    global lista_produto
-    numero_comanda = forme.lineEdit_3.text()
+    try:
+        add.label_11.setText('')
+        global lista_preco
+        global lista_produto
+        numero_comanda = forme.lineEdit_3.text()
 
-    banco = conexao.cursor()
-    cursor = conexao.cursor()
-    cursor.execute(f"SELECT valor FROM comandas WHERE numero_comanda ={numero_comanda}")
-    dados_comanda = cursor.fetchall()
-    valor_atual = dados_comanda[0][0]   
-    numero_produto = add.lineEdit.text()
-    if int(numero_produto) > 1000 and int(numero_produto) < 2000:
-        id_produto.append(int(numero_produto))
-    else:
-        pass
-    banco = conexao.cursor()
-    cursor = conexao.cursor()
-    cursor.execute(f"SELECT nome, valor FROM produtos WHERE codigo_produto = {numero_produto}")
-    dados_produto = cursor.fetchall()
-    # print(lista_produto)
-    # print(dados_produto[0][0])
-    lista_produto.append(dados_produto[0][0])
-    lista_preco.append(dados_produto[0][1])
-    add.listWidget.addItem(dados_produto[0][0])
-    add.listWidget_2.addItem("R$ "+str(dados_produto[0][1]))
-    # print(dados_produto[0][1])
-    # add.label_9.setText(str(dados_produto[0][0]))
-    # nome = forme.lineEdit_3.text()
-    
-    subtotal = sum(lista_preco)
-    novo_valor = valor_atual - subtotal
-    add.label_7.setText(" R$ "+str(novo_valor))
-    add.label_5.setText(" R$ "+str(subtotal))
-    add.lineEdit.setText("")
-    if novo_valor < 0:
-        ero.show()
+        banco = conexao.cursor()
+        cursor = conexao.cursor()
+        cursor.execute(f"SELECT valor FROM comandas WHERE numero_comanda ={numero_comanda}")
+        dados_comanda = cursor.fetchall()
+        valor_atual = dados_comanda[0][0]   
+        numero_produto = add.lineEdit.text()
+        if int(numero_produto) > 1000 and int(numero_produto) < 2000:
+            id_produto.append(int(numero_produto))
+        else:
+            pass
+        banco = conexao.cursor()
+        cursor = conexao.cursor()
+        cursor.execute(f"SELECT nome, valor FROM produtos WHERE codigo_produto = {numero_produto}")
+        dados_produto = cursor.fetchall()
+        lista_produto.append(dados_produto[0][0])
+        lista_preco.append(dados_produto[0][1])
+        add.listWidget.addItem(dados_produto[0][0])
+        add.listWidget_2.addItem("R$ "+str(dados_produto[0][1]))
+        
+        subtotal = sum(lista_preco)
+        novo_valor = valor_atual - subtotal
+        add.label_7.setText(" R$ "+str(novo_valor))
+        add.label_5.setText(" R$ "+str(subtotal))
+        add.lineEdit.setText("")
+        if novo_valor < 0:
+            ero.show()
+    except:
+        add.label_11.setText('Produto não encontrado!')
+        add.lineEdit.setText('')
+        print()
 
     # if valor == '':
     #     forme.lineEdit.setText('')
@@ -129,49 +130,55 @@ def add_produto():
 def entrar_guarida():
     nome = forme.lineEdit_5.text()
     senha = forme.lineEdit_6.text()
-    banco = conexao.cursor()
-    cursor = conexao.cursor()
-    cursor.execute(f"SELECT senha, nome FROM users WHERE nome = '{nome}'")
-    dados_user = cursor.fetchall()
-    print(dados_user[0][0])
-
-    senha_verificada = util.verificar_senha(senha, dados_user[0][0])
-    print(senha_verificada)
-
-
-    if nome == dados_user[0][1] and senha_verificada == True:
-        forme.label.setText("")
-        guarida.show()
-
-    else:
-        forme.label.setText("Usuário ou Senha incorreto")
-
-def alterar_nome():
-    numero_comanda = forme.lineEdit_8.text()
-    banco = conexao.cursor()
-    cursor = conexao.cursor()
-    cursor.execute(f"SELECT nome FROM comandas WHERE numero_comanda = {numero_comanda}")
-    dados_comanda = cursor.fetchall()
-    # valor_atual = dados_comanda[0][0]
-    # nome_db = dados_comanda[0][0]
-    nome = forme.lineEdit_7.text()       
-        
-    if nome != "":
-    
+    try:
         banco = conexao.cursor()
         cursor = conexao.cursor()
-        cursor.execute(f"UPDATE comandas SET nome = '{nome}' WHERE numero_comanda = {numero_comanda}")
-        cursor.execute("commit;")
-        banco.close()
-        forme.label_4.setText("Nome alterado com sucesso!")
-        forme.lineEdit_7.setText("")
-        forme.lineEdit_8.setText("")
-        listar_dados()
+        cursor.execute(f"SELECT senha, nome FROM users WHERE nome = '{nome}'")
+        dados_user = cursor.fetchall()
+        print(dados_user[0][0])
+
+        senha_verificada = util.verificar_senha(senha, dados_user[0][0])
+        print(senha_verificada)
+
+   
+
+        if nome == dados_user[0][1] and senha_verificada == True:
+            forme.label.setText("")
+            guarida.show()
+
+        else:
+            forme.label.setText("Usuário ou Senha incorreto")
+    except:
+        forme.label.setText("Usuário inexistente")
+
+def alterar_nome():
+    try:
+        numero_comanda = forme.lineEdit_8.text()
+        banco = conexao.cursor()
+        cursor = conexao.cursor()
+        cursor.execute(f"SELECT nome FROM comandas WHERE numero_comanda = {numero_comanda}")
+        dados_comanda = cursor.fetchall()
+        nome = forme.lineEdit_7.text()       
+            
+        if nome != "":
         
-    else:
-        forme.label_4.setText("Nenhum nome foi digitado!")
-        forme.lineEdit_7.setText("")
-        forme.lineEdit_8.setText("")
+            banco = conexao.cursor()
+            cursor = conexao.cursor()
+            cursor.execute(f"UPDATE comandas SET nome = '{nome}' WHERE numero_comanda = {numero_comanda}")
+            cursor.execute("commit;")
+            banco.close()
+            forme.label_4.setText("Nome alterado com sucesso!")
+            forme.lineEdit_7.setText("")
+            forme.lineEdit_8.setText("")
+            listar_dados()
+            
+        else:
+            forme.label_4.setText("Nenhum nome foi digitado!")
+            forme.lineEdit_7.setText("")
+            forme.lineEdit_8.setText("")
+    except:
+        print('Erro')
+        forme.label_4.setText("Comanda não encontrada")
         
 def add_saldo():
     if guarida.lineEdit.text() != "" and guarida.lineEdit_2.text() != "":
@@ -230,23 +237,27 @@ def ler():
         guarida.label_2.setText("R$ "+str(valor))
 
 def janela_comanda():
-    add.show()
-    lista_preco.clear()
-    lista_produto.clear()
-    add.label_5.setText("R$ 0.00")
-    add.label_7.setText("R$ 0.00")
-    # forme.lineEdit_3.setText("")
-    add.listWidget.clear()
-    add.listWidget_2.clear()
-    
-    banco = conexao.cursor()
-    cursor = conexao.cursor()
-    cursor.execute("SELECT valor, nome FROM comandas WHERE numero_comanda = '"+forme.lineEdit_3.text()+"'")
-    dados_comanda = cursor.fetchall()
-    valor_atual = dados_comanda[0][0]
-    add.label_6.setText("R$ "+str(dados_comanda[0][0]))
-    add.label_10.setText(dados_comanda[0][1])
-    add.label.setText("N°: "+forme.lineEdit_3.text())
+    try:
+        forme.label_11.setText('')
+        banco = conexao.cursor()
+        cursor = conexao.cursor()
+        cursor.execute("SELECT valor, nome FROM comandas WHERE numero_comanda = '"+forme.lineEdit_3.text()+"'")
+        dados_comanda = cursor.fetchall()
+        valor_atual = dados_comanda[0][0]
+        add.show()
+        lista_preco.clear()
+        lista_produto.clear()
+        add.label_5.setText("R$ 0.00")
+        add.label_7.setText("R$ 0.00")
+        # forme.lineEdit_3.setText("")
+        add.listWidget.clear()
+        add.listWidget_2.clear()
+        add.label_6.setText("R$ "+str(dados_comanda[0][0]))
+        add.label_10.setText(dados_comanda[0][1])
+        add.label.setText("N°: "+forme.lineEdit_3.text())
+    except:
+        forme.label_11.setText('Comanda não encontrada!')
+        print('Comanda não encontrada!')
 
 def confirmar_pedido():
     if add.lineEdit.text() != "":
@@ -324,6 +335,7 @@ def cancelar():
     forme.lineEdit_3.setText("")
     add.listWidget.clear()
     add.listWidget_2.clear()
+    add.label_11.setText('')
     add.close()
 
 def zerar():

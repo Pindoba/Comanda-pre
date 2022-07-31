@@ -247,6 +247,29 @@ QPushButton:active {
             <string>Vender</string>
            </property>
           </widget>
+          <widget class="QLabel" name="label_11">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>60</y>
+             <width>221</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255, 0, 0);</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
          </widget>
         </widget>
         <widget class="QWidget" name="tab_2">
@@ -394,7 +417,7 @@ border:1px solid #566963;</string>
            <property name="geometry">
             <rect>
              <x>30</x>
-             <y>220</y>
+             <y>190</y>
              <width>411</width>
              <height>31</height>
             </rect>
@@ -594,8 +617,8 @@ QPushButton:active {
           <widget class="QLabel" name="label_4">
            <property name="geometry">
             <rect>
-             <x>80</x>
-             <y>210</y>
+             <x>20</x>
+             <y>190</y>
              <width>361</width>
              <height>31</height>
             </rect>
