@@ -58,7 +58,7 @@ border:0px solid #566963;</string>
         </property>
         <widget class="QWidget" name="tab">
          <attribute name="title">
-          <string>Balcão</string>
+          <string>Vendas</string>
          </attribute>
          <widget class="QFrame" name="frame">
           <property name="geometry">
@@ -274,7 +274,7 @@ QPushButton:active {
         </widget>
         <widget class="QWidget" name="tab_2">
          <attribute name="title">
-          <string>Guarita</string>
+          <string>Recarga</string>
          </attribute>
          <widget class="QFrame" name="frame_4">
           <property name="geometry">
@@ -639,7 +639,7 @@ QPushButton:active {
         </widget>
         <widget class="QWidget" name="tab_3">
          <attribute name="title">
-          <string>Histórico</string>
+          <string>Movimentação</string>
          </attribute>
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
@@ -855,51 +855,11 @@ border:0px solid #566963;
          <attribute name="title">
           <string>Cadastrar/Alterar</string>
          </attribute>
-         <widget class="QPushButton" name="pushButton_3">
-          <property name="geometry">
-           <rect>
-            <x>30</x>
-            <y>280</y>
-            <width>131</width>
-            <height>41</height>
-           </rect>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-	box-shadow:inset 0px 1px 3px 0px #91b8b3;
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	background-color:#768d87;
-	border-radius:5px;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:11px 23px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
-}
-QPushButton:hover {
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	background-color:#6c7c7c;
-}
-QPushButton:active {
-	position:relative;
-	top:1px;
-}
-</string>
-          </property>
-          <property name="text">
-           <string>Vender</string>
-          </property>
-         </widget>
          <widget class="QPushButton" name="pushButton_6">
           <property name="geometry">
            <rect>
-            <x>30</x>
-            <y>370</y>
+            <x>20</x>
+            <y>570</y>
             <width>131</width>
             <height>41</height>
            </rect>
@@ -935,58 +895,35 @@ QPushButton:active {
            <string>Usuário</string>
           </property>
          </widget>
-         <widget class="QLineEdit" name="lineEdit_9">
+         <widget class="QFrame" name="frame_6">
           <property name="geometry">
            <rect>
-            <x>30</x>
-            <y>120</y>
-            <width>191</width>
-            <height>41</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
-          <property name="accessibleName">
-           <string/>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(211, 211, 211);
-border-radius:5px;
-border:1px solid #566963;</string>
-          </property>
-          <property name="inputMethodHints">
-           <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
-          </property>
-          <property name="inputMask">
-           <string/>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="echoMode">
-           <enum>QLineEdit::Password</enum>
-          </property>
-          <property name="placeholderText">
-           <string>Senha:</string>
-          </property>
-          <property name="clearButtonEnabled">
-           <bool>false</bool>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="pushButton_7">
-          <property name="geometry">
-           <rect>
-            <x>260</x>
-            <y>120</y>
-            <width>131</width>
-            <height>41</height>
+            <x>40</x>
+            <y>20</y>
+            <width>661</width>
+            <height>261</height>
            </rect>
           </property>
           <property name="styleSheet">
-           <string notr="true">QPushButton {
+           <string notr="true">background-color: rgb(223, 223, 223);</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QPushButton" name="pushButton_7">
+           <property name="geometry">
+            <rect>
+             <x>260</x>
+             <y>140</y>
+             <width>131</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
 	box-shadow:inset 0px 1px 3px 0px #91b8b3;
 	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
 	background-color:#768d87;
@@ -1011,49 +948,138 @@ QPushButton:active {
 	top:1px;
 }
 </string>
-          </property>
-          <property name="text">
-           <string>Entrar</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEdit_10">
-          <property name="geometry">
-           <rect>
-            <x>30</x>
-            <y>60</y>
-            <width>191</width>
-            <height>41</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
-          <property name="accessibleName">
-           <string/>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(211, 211, 211);
+           </property>
+           <property name="text">
+            <string>Entrar</string>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="lineEdit_9">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>80</y>
+             <width>191</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="accessibleName">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(211, 211, 211);
 border-radius:5px;
 border:1px solid #566963;</string>
-          </property>
-          <property name="inputMethodHints">
-           <set>Qt::ImhNone</set>
-          </property>
-          <property name="inputMask">
-           <string/>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="placeholderText">
-           <string>Usuário:</string>
-          </property>
-          <property name="clearButtonEnabled">
-           <bool>false</bool>
-          </property>
+           </property>
+           <property name="inputMethodHints">
+            <set>Qt::ImhNone</set>
+           </property>
+           <property name="inputMask">
+            <string/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="placeholderText">
+            <string>Usuário:</string>
+           </property>
+           <property name="clearButtonEnabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="lineEdit_10">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>140</y>
+             <width>191</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="accessibleName">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(211, 211, 211);
+border-radius:5px;
+border:1px solid #566963;</string>
+           </property>
+           <property name="inputMethodHints">
+            <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
+           </property>
+           <property name="inputMask">
+            <string/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="echoMode">
+            <enum>QLineEdit::Password</enum>
+           </property>
+           <property name="placeholderText">
+            <string>Senha:</string>
+           </property>
+           <property name="clearButtonEnabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_9">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>190</y>
+             <width>411</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255, 85, 0);</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_10">
+           <property name="geometry">
+            <rect>
+             <x>90</x>
+             <y>10</y>
+             <width>451</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>15</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Login necesário</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
          </widget>
+        </widget>
+        <widget class="QWidget" name="tab_5">
+         <attribute name="title">
+          <string>Relatorios</string>
+         </attribute>
         </widget>
        </widget>
       </item>
@@ -1081,8 +1107,8 @@ border:1px solid #566963;</string>
      <y>114</y>
     </hint>
     <hint type="destinationlabel">
-     <x>304</x>
-     <y>118</y>
+     <x>322</x>
+     <y>117</y>
     </hint>
    </hints>
   </connection>

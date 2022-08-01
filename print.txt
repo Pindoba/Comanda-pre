@@ -2,9 +2,8 @@ Comanda: 0101
 
 Carne de sol com macaxeira
 
+maria mea 47
 
-Welton
-
-HORA: 18:21:10
-DATA: 30/07/22
+HORA: 16:25:34
+DATA: 01/08/22
           ...
