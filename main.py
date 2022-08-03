@@ -307,11 +307,6 @@ def confirmar_pedido():
             win32api.ShellExecute(0, "print", "print.txt", None, ".", 0)
             n = n+1        
             time.sleep(0.5)
-        indice = 0
-        for i in lista_preco:
-            cursor.execute("INSERT INTO historicos (evento, numero_comanda, nome, produto, valor, data) VALUES ('{}', '{}', '{}','{}', {}, '{}')".format("VENDA",forme.lineEdit_3.text(),add.label_10.text(), lista_produto[indice],lista_preco[indice], data_hora))
-            indice +=1
-        historico()
 
         banco = conexao.cursor()
         cursor = conexao.cursor()
@@ -328,6 +323,13 @@ def confirmar_pedido():
         forme.lineEdit_3.setText("")
         add.close()
         listar_dados()
+        indice = 0
+        for i in lista_preco:
+            cursor.execute("INSERT INTO historicos (evento, numero_comanda, nome, produto, valor, data) VALUES ('{}', '{}', '{}','{}', {}, '{}')".format("VENDA",forme.lineEdit_3.text(),add.label_10.text(), lista_produto[indice],lista_preco[indice], data_hora))
+            indice +=1
+        historico()
+
+        
 
 def cancelar():
     lista_preco.clear()

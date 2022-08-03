@@ -1,9 +1,9 @@
 Comanda: 0101
 
-Carne de sol com macaxeira
+ovo frito
 
 maria mea 47
 
-HORA: 16:25:34
-DATA: 01/08/22
+HORA: 19:52:40
+DATA: 03/08/22
           ...
