@@ -1,9 +1,9 @@
 Comanda: 0101
 
-ovo frito
+Feijao tropeiro
 
 maria mea 47
 
-HORA: 19:52:40
-DATA: 03/08/22
+HORA: 18:33:48
+DATA: 04/08/22
           ...

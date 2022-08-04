@@ -36,6 +36,8 @@ def iniciar():
     
     listar_dados()
     historico()
+    # user.show()
+    # listar_produtos_cadastro()
 
 def criar_user():
     
@@ -76,6 +78,34 @@ def cadastro_produto():
     user.lineEdit_6.setText('')
     listar_produtos_cadastro()
 
+def editar_produto():
+
+    linha = user.tableWidget_2.currentRow()
+    cursor = conexao.cursor()
+    cursor.execute("SELECT * FROM produtos ")
+    dados_produto = cursor.fetchall()
+
+    user.lineEdit_4.setText(str(dados_produto[linha][0]))
+    user.lineEdit_5.setText(dados_produto[linha][1])
+    user.lineEdit_6.setText(str(dados_produto[linha][2]))
+
+def salvar_edicao_produto():
+    codigo = user.lineEdit_4.text()
+    nome = user.lineEdit_5.text()
+    valor = user.lineEdit_6.text()
+
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
+    cursor.execute(f"UPDATE produtos SET nome = '{nome}', valor = '{valor}' WHERE codigo_produto = {codigo}")
+    cursor.execute("commit;")
+    banco.close()
+    listar_produtos_cadastro()
+    # lista_produto()
+    user.lineEdit_4.setText('')
+    user.lineEdit_5.setText('')
+    user.lineEdit_6.setText('')
+
+
 def add_produto():
     try:
         add.label_11.setText('')
@@ -112,7 +142,6 @@ def add_produto():
     except:
         add.label_11.setText('Produto não encontrado!')
         add.lineEdit.setText('')
-        print()
 
     # if valor == '':
     #     forme.lineEdit.setText('')
@@ -141,12 +170,7 @@ def entrar_guarida():
         cursor = conexao.cursor()
         cursor.execute(f"SELECT senha, nome FROM users WHERE nome = '{nome}'")
         dados_user = cursor.fetchall()
-        print(dados_user[0][0])
-
         senha_verificada = util.verificar_senha(senha, dados_user[0][0])
-        print(senha_verificada)
-
-   
 
         if nome == dados_user[0][1] and senha_verificada == True:
             forme.label.setText("")
@@ -368,19 +392,16 @@ def open_user():
     nome = forme.lineEdit_9.text()
     senha = forme.lineEdit_10.text()
     try:
-        # banco = conexao.cursor()
         cursor = conexao.cursor()
         cursor.execute(f"SELECT senha, nome, nivel FROM users WHERE nome = '{nome}'")
         dados_user = cursor.fetchall()
-        # print(dados_user[0][0])
-
         senha_verificada = util.verificar_senha(senha, dados_user[0][0])
-        print(senha_verificada)
-
+  
         if nome == dados_user[0][1] and senha_verificada == True and dados_user[0][2] == '3':
             forme.label_9.setText("")
             user.show()
             listar_user()
+            time.sleep(0.3)
             listar_produtos_cadastro()
 
         else:
@@ -444,7 +465,7 @@ def listar_produtos_cadastro():
     user.tableWidget_2.setRowCount(len(dados_lidos))
     user.tableWidget_2.setColumnCount(3)
     banco.close()
-    lista_produto()
+    # lista_produto()
     
     for i in range(0, len(dados_lidos)):
         for j in range(0, 3):
@@ -490,21 +511,7 @@ def listar_produtos():
 
 
 # def editar():
-#     linha = forme.tableWidget.currentRow()
-#     global numero_id
-#     banco = sqlite3.connect('banco_dados.db')
-#     cursor = banco.cursor()
-    # cursor.execute("SELECT id FROM dados")
-    # dados_lidos = cursor.fetchall()
-    # valor_id = dados_lidos[linha][0]
-    # cursor.execute("SELECT * FROM dados WHERE id=" + str(valor_id))
-    # status = cursor.fetchall()
-    # numero_id = valor_id
-    
-    # editor.show()
-    # editor.lineEdit.setText(str(status[0][0]))
-    # editor.lineEdit_2.setText(str(status[0][1]))
-    # editor.lineEdit_3.setText(str(status[0][2]))
+
 
 
 
@@ -551,6 +558,10 @@ ero.pushButton.clicked.connect(erro)
 
 user.pushButton.clicked.connect(salvar_user)
 user.pushButton_3.clicked.connect(cadastro_produto)
+user.pushButton_4.clicked.connect(editar_produto)
+user.pushButton_5.clicked.connect(salvar_edicao_produto)
+
+
 
 
 

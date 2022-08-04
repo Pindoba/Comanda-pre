@@ -48,7 +48,7 @@ border:0px solid #566963;</string>
          <enum>QTabWidget::North</enum>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>4</number>
         </property>
         <property name="iconSize">
          <size>
@@ -855,46 +855,6 @@ border:0px solid #566963;
          <attribute name="title">
           <string>Cadastrar/Alterar</string>
          </attribute>
-         <widget class="QPushButton" name="pushButton_6">
-          <property name="geometry">
-           <rect>
-            <x>20</x>
-            <y>570</y>
-            <width>131</width>
-            <height>41</height>
-           </rect>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-	box-shadow:inset 0px 1px 3px 0px #91b8b3;
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	background-color:#768d87;
-	border-radius:5px;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:11px 23px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
-}
-QPushButton:hover {
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	background-color:#6c7c7c;
-}
-QPushButton:active {
-	position:relative;
-	top:1px;
-}
-</string>
-          </property>
-          <property name="text">
-           <string>Usuário</string>
-          </property>
-         </widget>
          <widget class="QFrame" name="frame_6">
           <property name="geometry">
            <rect>
@@ -1109,6 +1069,54 @@ border:1px solid #566963;</string>
     <hint type="destinationlabel">
      <x>322</x>
      <y>117</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEdit_10</sender>
+   <signal>editingFinished()</signal>
+   <receiver>pushButton_7</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>261</x>
+     <y>225</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>341</x>
+     <y>230</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEdit_7</sender>
+   <signal>editingFinished()</signal>
+   <receiver>pushButton_5</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>201</x>
+     <y>241</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>333</x>
+     <y>247</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEdit_6</sender>
+   <signal>editingFinished()</signal>
+   <receiver>pushButton_4</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>226</x>
+     <y>538</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>320</x>
+     <y>538</y>
     </hint>
    </hints>
   </connection>
