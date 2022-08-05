@@ -1,8 +1,8 @@
 # Comanda pré-paga
 
 
-<img src="imag.png" alt="exemplo imagem">
-<img src="imag2.png" alt="exemplo imagem">
+<img src="img.png" alt="exemplo imagem">
+<img src="img2.png" alt="exemplo imagem">
 
 > Projeto pensado para casas noturnas e bares, onde o cliente recebe um cartão com o codigo único podendo adiconar valor para o consumo no resínduo, e ao final da noite recupar o valor restante. Podendo tambem ser ultilizado como uma "carteirinha fidelidade". Tudo fica registrado em uma tabela sql, inclusive todas as movimentações de entrada e saída.
 
