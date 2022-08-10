@@ -624,6 +624,24 @@ QPushButton:active {
         <string>Excluir</string>
        </property>
       </widget>
+      <widget class="QCheckBox" name="checkBox">
+       <property name="geometry">
+        <rect>
+         <x>610</x>
+         <y>50</y>
+         <width>91</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Imprimir</string>
+       </property>
+      </widget>
      </widget>
     </widget>
    </item>

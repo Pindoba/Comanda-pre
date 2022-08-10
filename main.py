@@ -66,10 +66,11 @@ def cadastro_produto():
     codigo = user.lineEdit_4.text()
     nome = user.lineEdit_5.text()
     preco = user.lineEdit_6.text().replace(",",".")
+    imprimir = user.checkBox.isChecked()
 
     banco = conexao.cursor()
     cursor = conexao.cursor()
-    cursor.execute("INSERT INTO produtos (codigo_produto, nome, valor) VALUES ({}, '{}', {})".format(codigo,nome,preco))
+    cursor.execute("INSERT INTO produtos (codigo_produto, nome, valor, imprimir) VALUES ({}, '{}', {},{})".format(codigo,nome,preco,imprimir))
     cursor.execute("commit;")
     banco.close()
     user.label_11.setText('Produto cadastrado com sucesso!')
@@ -88,15 +89,17 @@ def editar_produto():
     user.lineEdit_4.setText(str(dados_produto[linha][0]))
     user.lineEdit_5.setText(dados_produto[linha][1])
     user.lineEdit_6.setText(str(dados_produto[linha][2]))
+    user.checkBox.setChecked(dados_produto[linha][3])
 
 def salvar_edicao_produto():
     codigo = user.lineEdit_4.text()
     nome = user.lineEdit_5.text()
     valor = user.lineEdit_6.text()
+    imprimir = user.checkBox.isChecked()
 
     banco = conexao.cursor()
     cursor = conexao.cursor()
-    cursor.execute(f"UPDATE produtos SET nome = '{nome}', valor = '{valor}' WHERE codigo_produto = {codigo}")
+    cursor.execute(f"UPDATE produtos SET nome = '{nome}', valor = '{valor}', imprimir = {imprimir} WHERE codigo_produto = {codigo}")
     cursor.execute("commit;")
     banco.close()
     listar_produtos_cadastro()
@@ -119,16 +122,18 @@ def add_produto():
         dados_comanda = cursor.fetchall()
         valor_atual = dados_comanda[0][0]   
         numero_produto = add.lineEdit.text()
-        if int(numero_produto) > 1000 and int(numero_produto) < 2000:
-            id_produto.append(int(numero_produto))
-        else:
-            pass
+       
         banco = conexao.cursor()
         cursor = conexao.cursor()
-        cursor.execute(f"SELECT nome, valor FROM produtos WHERE codigo_produto = {numero_produto}")
+        cursor.execute(f"SELECT nome, valor, imprimir FROM produtos WHERE codigo_produto = {numero_produto}")
         dados_produto = cursor.fetchall()
         lista_produto.append(dados_produto[0][0])
         lista_preco.append(dados_produto[0][1])
+        imprimir = dados_produto[0][2]
+        if imprimir == True:
+            id_produto.append(int(numero_produto))
+        else:
+            pass
         add.listWidget.addItem(dados_produto[0][0])
         add.listWidget_2.addItem("R$ "+str(dados_produto[0][1]))
         
@@ -353,7 +358,33 @@ def confirmar_pedido():
             indice +=1
         historico()
 
+def cupom():
+    global lista_preco
+    global lista_produto
+    # arquivo = open("cupom.txt", "w")
+    # arquivo.write(add.listWidget.text())
+    # arquivo.close()
+    n = 0
+    arquivo = open("cupom.txt", "w")
+    for i in range(len(lista_produto)):
         
+        arquivo.write(str(lista_produto[n])+'       R$ '+ str(lista_preco[n])+'\n')
+        # arquivo.write("\n\n"+"\n\n")
+        # arquivo.write(nome_comanda[0][0]+"\n\n")
+        # arquivo.write("HORA: "+hora_str)
+        # arquivo.write("\nDATA: "+ data_str)
+        # arquivo.write("\n          ...")
+        
+        n += 1
+    total = add.label_5.text()
+    arquivo.write("\nTotal:      "+total[0:10]+"\n")
+    
+    arquivo.close()
+
+    lista_impressoras = win32print.EnumPrinters(2)
+    impressora = lista_impressoras[4]
+    win32print.SetDefaultPrinter(impressora[2])
+    win32api.ShellExecute(0, "print", "cupom.txt", None, ".", 0)
 
 def cancelar():
     lista_preco.clear()
@@ -548,6 +579,8 @@ forme.pushButton_5.clicked.connect(alterar_nome)
 
 add.pushButton_2.clicked.connect(confirmar_pedido)
 add.pushButton_3.clicked.connect(cancelar)
+add.pushButton_4.clicked.connect(cupom)
+
 add.pushButton.clicked.connect(add_produto)
 
 guarida.pushButton_7.clicked.connect(zerar)

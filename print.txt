@@ -1,9 +1,9 @@
-Comanda: 0101
+Comanda: 0102
 
-Feijao tropeiro
+SKOL
 
-maria mea 47
+mesa 3 joaquim
 
-HORA: 18:33:48
-DATA: 04/08/22
+HORA: 16:56:06
+DATA: 10/08/22
           ...
