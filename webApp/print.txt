@@ -1,0 +1,9 @@
+Comanda: 0101
+
+Feijao tropeiro
+
+maria mesa 10
+
+HORA: 17:44:23
+DATA: 10/08/22
+          ...

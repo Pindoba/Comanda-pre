@@ -1,9 +1,9 @@
 Comanda: 0102
 
-SKOL
+Carne de sol com macaxeira
 
 mesa 3 joaquim
 
-HORA: 16:56:06
+HORA: 17:10:07
 DATA: 10/08/22
           ...

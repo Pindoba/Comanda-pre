@@ -1,6 +1,7 @@
 import streamlit as st
 import datetime
-
+import win32print
+import win32api
 import sqlite3
 import time
 import threading
@@ -14,7 +15,7 @@ data = datetime.datetime.now()
 data_str = data.strftime("%d/%m/%y")
 hora = datetime.datetime.now()
 hora_str = hora.strftime("%H:%M:%S")
-data_hora = data_str + " " +hora_str
+data_hora = data.strftime("%y/%m/%d") + " " +hora_str
 
 conexao = pymysql.connect(host='DESKTOP-IDQTBUT',user='root', database='banco_dados', password='pindoba10')
 
@@ -60,21 +61,46 @@ if pagina_atual == 'Vender':
                     
                     banco = conexao.cursor()
                     cursor = conexao.cursor()
-                    cursor.execute("SELECT nome, valor FROM produtos WHERE codigo_produto = '"+codigo_produto+"'")
+                    cursor.execute("SELECT nome, valor, imprimir FROM produtos WHERE codigo_produto = '"+codigo_produto+"'")
                     dados_produto = cursor.fetchall()
                     produto = dados_produto[0][0]
                     preco = dados_produto[0][1]
+                    imprimir = dados_produto[0][2]
                     saldo_final = dados_comanda[0][0] - preco
 
                     if saldo_final < 0:
                         st.info('Saldo insuficiente!')
                     else:
+                        if imprimir == True:
+                            cursor = conexao.cursor()
+                            cursor.execute("SELECT nome FROM produtos WHERE codigo_produto = '"+str(codigo_produto)+"'")
+                            dados_comanda = cursor.fetchall()
 
-                        cursor.execute(f"UPDATE comandas SET valor = '{saldo_final:.2f}' WHERE numero_comanda = {n_comanda}")
-                        cursor.execute("commit;")
-                        banco.close()
-                        st.info(produto+' foi debitado da comanda '+n_comanda)
-                        st.info('Novo saldo: R$ '+str(saldo_final))
+                            arquivo = open("print.txt", "w")
+                            arquivo.write("Comanda: "+n_comanda)
+                            arquivo.write("\n\n"+produto+"\n\n")
+                            arquivo.write(nome+"\n\n")
+                            arquivo.write("HORA: "+hora_str)
+                            arquivo.write("\nDATA: "+ data_str)
+                            arquivo.write("\n          ...")
+                            arquivo.close()
+
+                            lista_impressoras = win32print.EnumPrinters(2)
+                            impressora = lista_impressoras[4]
+                            win32print.SetDefaultPrinter(impressora[2])
+                            win32api.ShellExecute(0, "print", "print.txt", None, ".", 0)
+                            st.info(produto+' foi debitado da comanda '+n_comanda)
+                            st.info('Novo saldo: R$ '+str(saldo_final))
+                            time.sleep(0.7)
+                            cursor.execute("INSERT INTO historicos (evento, numero_comanda, nome, produto, valor, data) VALUES ('{}', '{}', '{}','{}', {}, '{}')".format("VENDA",n_comanda,nome, produto,preco, data_hora))
+                            cursor.execute("commit;")
+                        else:
+
+                            cursor.execute(f"UPDATE comandas SET valor = '{saldo_final:.2f}' WHERE numero_comanda = {n_comanda}")
+                            cursor.execute("commit;")
+                            banco.close()
+                            st.info(produto+' foi debitado da comanda '+n_comanda)
+                            st.info('Novo saldo: R$ '+str(saldo_final))
                         
   
 

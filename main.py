@@ -14,7 +14,7 @@ data = datetime.datetime.now()
 data_str = data.strftime("%d/%m/%y")
 hora = datetime.datetime.now()
 hora_str = hora.strftime("%H:%M:%S")
-data_hora = data_str + " " +hora_str
+data_hora = data.strftime("%y/%m/%d") + " " +hora_str
 
 conexao = pymysql.connect(host='DESKTOP-IDQTBUT',user='root', database='banco_dados', password='pindoba10')
 
@@ -335,27 +335,32 @@ def confirmar_pedido():
             win32print.SetDefaultPrinter(impressora[2])
             win32api.ShellExecute(0, "print", "print.txt", None, ".", 0)
             n = n+1        
-            time.sleep(0.5)
+            time.sleep(0.7)
 
         banco = conexao.cursor()
         cursor = conexao.cursor()
         cursor.execute(f"UPDATE comandas SET valor = '{saldo_final:.2f}' WHERE numero_comanda = {numero_comanda}")
         cursor.execute("commit;")
         banco.close()
-        add.label_5.setText("R$ 0.00")
-        add.label_7.setText("R$ 0.00")
-        lista_preco.clear()
-        lista_produto.clear()
-        id_produto.clear()
-        add.listWidget.clear()
-        add.listWidget_2.clear()
-        forme.lineEdit_3.setText("")
+        
         add.close()
         listar_dados()
         indice = 0
         for i in lista_preco:
             cursor.execute("INSERT INTO historicos (evento, numero_comanda, nome, produto, valor, data) VALUES ('{}', '{}', '{}','{}', {}, '{}')".format("VENDA",forme.lineEdit_3.text(),add.label_10.text(), lista_produto[indice],lista_preco[indice], data_hora))
+            cursor.execute("commit;")
             indice +=1
+
+        add.label_5.setText("R$ 0.00")
+        add.label_7.setText("R$ 0.00")
+        
+        add.listWidget.clear()
+        add.listWidget_2.clear()
+        forme.lineEdit_3.setText("")
+
+        lista_preco.clear()
+        lista_produto.clear()
+        id_produto.clear()
         historico()
 
 def cupom():
