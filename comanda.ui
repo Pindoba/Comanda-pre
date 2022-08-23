@@ -48,7 +48,7 @@ border:0px solid #566963;</string>
          <enum>QTabWidget::North</enum>
         </property>
         <property name="currentIndex">
-         <number>4</number>
+         <number>3</number>
         </property>
         <property name="iconSize">
          <size>
@@ -763,93 +763,176 @@ border:0px solid #566963;
          <attribute name="title">
           <string>Tabela de Produtos</string>
          </attribute>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
-           <widget class="QTableWidget" name="tableWidget_2">
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(213, 209, 204);
+         <widget class="QTableWidget" name="tableWidget_2">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>70</y>
+            <width>811</width>
+            <height>541</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(213, 209, 204);
 border-radius:5px;
 border:0px solid #566963;
 </string>
-            </property>
-            <property name="autoScrollMargin">
-             <number>16</number>
-            </property>
-            <attribute name="horizontalHeaderMinimumSectionSize">
-             <number>39</number>
-            </attribute>
-            <attribute name="horizontalHeaderDefaultSectionSize">
-             <number>214</number>
-            </attribute>
-            <column>
-             <property name="text">
-              <string>CODIGO</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>11</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="textAlignment">
-              <set>AlignCenter</set>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>NOME</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>11</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="textAlignment">
-              <set>AlignCenter</set>
-             </property>
-             <property name="background">
-              <color>
-               <red>255</red>
-               <green>255</green>
-               <blue>255</blue>
-              </color>
-             </property>
-             <property name="foreground">
-              <brush brushstyle="NoBrush">
-               <color alpha="255">
-                <red>0</red>
-                <green>25</green>
-                <blue>0</blue>
-               </color>
-              </brush>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>VALOR</string>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>11</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="textAlignment">
-              <set>AlignCenter</set>
-             </property>
-            </column>
-           </widget>
-          </item>
-         </layout>
+          </property>
+          <property name="autoScrollMargin">
+           <number>16</number>
+          </property>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>39</number>
+          </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>214</number>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>CODIGO</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>NOME</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
+           <property name="background">
+            <color>
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+           </property>
+           <property name="foreground">
+            <brush brushstyle="NoBrush">
+             <color alpha="255">
+              <red>0</red>
+              <green>25</green>
+              <blue>0</blue>
+             </color>
+            </brush>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>VALOR</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
+          </column>
+         </widget>
+         <widget class="QFrame" name="frame_7">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>0</y>
+            <width>661</width>
+            <height>61</height>
+           </rect>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QPushButton" name="pushButton_3">
+           <property name="geometry">
+            <rect>
+             <x>280</x>
+             <y>10</y>
+             <width>131</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+	box-shadow:inset 0px 1px 3px 0px #91b8b3;
+	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
+	background-color:#768d87;
+	border-radius:5px;
+	border:1px solid #566963;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:11px 23px;
+	text-decoration:none;
+	text-shadow:0px -1px 0px #2b665e;
+}
+QPushButton:hover {
+	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
+	background-color:#6c7c7c;
+}
+QPushButton:active {
+	position:relative;
+	top:1px;
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Procurar</string>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="lineEdit_4">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>10</y>
+             <width>191</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(211, 211, 211);
+border-radius:5px;
+border:1px solid #566963;</string>
+           </property>
+           <property name="placeholderText">
+            <string/>
+           </property>
+          </widget>
+         </widget>
         </widget>
         <widget class="QWidget" name="tab_4">
          <attribute name="title">

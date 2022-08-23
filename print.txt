@@ -1,9 +1,9 @@
-Comanda: 0102
+Comanda: 101
 
-Carne de sol com macaxeira
+FILÉ TIGELA BATATA
 
-mesa 3 joaquim
+mesa 25
 
-HORA: 17:10:07
-DATA: 10/08/22
+HORA: 15:35:15
+DATA: 23/08/22
           ...

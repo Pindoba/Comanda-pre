@@ -35,7 +35,7 @@ if pagina_atual == 'Vender':
     
 
     st.header('Venda')
-    n_comanda = st.text_input(label='Numero da comanda')
+    n_comanda = str(st.number_input(label='Numero da comanda', min_value=None, max_value=None,value=0, step=None, format=None, key=None, help=None, on_change=None)) #st.text_input(label='Numero da comanda')
     
     # ler  = st.button(label='Ler Comanda')
     
@@ -54,7 +54,7 @@ if pagina_atual == 'Vender':
                 st.text('\nValor: R$ '+ str(valor))
                 
                 with st.form(key='myform', clear_on_submit=True):
-                    codigo_produto = st.text_input(label='Produto')
+                    codigo_produto = str(st.number_input(label='Codigo do produto', min_value=None, max_value=None,value=0, step=None, format=None, key=None, help=None, on_change=None)) #st.text_input(label='Produto')
                     vender = st.form_submit_button('vender')
                     
                 if codigo_produto:
@@ -105,8 +105,8 @@ if pagina_atual == 'Vender':
   
 
         except:
-            # st.table('dddd')
-            st.info('Produto nao encontrado')
+            pass
+            # st.info('Produto nao encontrado')
 
     # elif
 

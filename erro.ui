@@ -6,38 +6,38 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>340</width>
+    <width>522</width>
     <height>168</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Algo de errado não estar certo!</string>
   </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>20</y>
-     <width>271</width>
-     <height>71</height>
+     <x>10</x>
+     <y>10</y>
+     <width>511</width>
+     <height>101</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>21</pointsize>
+     <pointsize>12</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
    <property name="text">
-    <string>Saldo insuficiente!</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Saldo insuficiente!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>110</y>
+     <x>220</x>
+     <y>130</y>
      <width>91</width>
      <height>31</height>
     </rect>

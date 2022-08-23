@@ -9,14 +9,16 @@ import win32api
 import os
 import bcrypt
 import util
+# import keyboard
 
-data = datetime.datetime.now()
-data_str = data.strftime("%d/%m/%y")
-hora = datetime.datetime.now()
-hora_str = hora.strftime("%H:%M:%S")
-data_hora = data.strftime("%y/%m/%d") + " " +hora_str
 
-conexao = pymysql.connect(host='DESKTOP-IDQTBUT',user='root', database='banco_dados', password='pindoba10')
+# data = datetime.datetime.now()
+# data_str = data.strftime("%d/%m/%y")
+# hora = datetime.datetime.now()
+# hora_str = hora.strftime("%H:%M:%S") 
+# data_hora = data.strftime("%y/%m/%d") + " " +hora_str
+
+conexao = pymysql.connect(host='SERVIDOR',user='root', database='banco_dados', password='pindoba10')
 
 lista_preco = []
 lista_produto = []
@@ -36,8 +38,7 @@ def iniciar():
     
     listar_dados()
     historico()
-    # user.show()
-    # listar_produtos_cadastro()
+    
 
 def criar_user():
     
@@ -70,43 +71,66 @@ def cadastro_produto():
 
     banco = conexao.cursor()
     cursor = conexao.cursor()
-    cursor.execute("INSERT INTO produtos (codigo_produto, nome, valor, imprimir) VALUES ({}, '{}', {},{})".format(codigo,nome,preco,imprimir))
-    cursor.execute("commit;")
-    banco.close()
-    user.label_11.setText('Produto cadastrado com sucesso!')
-    user.lineEdit_4.setText('')
-    user.lineEdit_5.setText('')
-    user.lineEdit_6.setText('')
-    listar_produtos_cadastro()
+    cursor.execute("SELECT count(codigo_produto)  as tem FROM banco_dados.produtos where codigo_produto ="+codigo+"")
+    tem = cursor.fetchall()
+    print(type(tem))
+    print(tem[0][0])
+    if tem[0][0] > 0:
+        ero.show()
+        ero.label.setText("Produto já cadastrado!")
+        user.lineEdit_4.setText('')
+    else:
+
+        cursor.execute("INSERT INTO produtos (codigo_produto, nome, valor, imprimir) VALUES ({}, '{}', {},{})".format(codigo,nome,preco,imprimir))
+        cursor.execute("commit;")
+        banco.close()
+        user.label_11.setText('Produto cadastrado com sucesso!')
+        user.lineEdit_4.setText('')
+        user.lineEdit_5.setText('')
+        user.lineEdit_6.setText('')
+        listar_produtos_cadastro()
 
 def editar_produto():
+    try:
+        codigo = user.tableWidget_2.currentItem().text()
 
-    linha = user.tableWidget_2.currentRow()
-    cursor = conexao.cursor()
-    cursor.execute("SELECT * FROM produtos ")
-    dados_produto = cursor.fetchall()
+        cursor = conexao.cursor()
+        cursor.execute("SELECT * FROM produtos where codigo_produto = "+codigo+" ")
+        dados_produto = cursor.fetchall()
+        # print(user.tableWidget_2.currentItem().text())
 
-    user.lineEdit_4.setText(str(dados_produto[linha][0]))
-    user.lineEdit_5.setText(dados_produto[linha][1])
-    user.lineEdit_6.setText(str(dados_produto[linha][2]))
-    user.checkBox.setChecked(dados_produto[linha][3])
+        user.lineEdit_4.setText(str(dados_produto[0][0]))
+        user.lineEdit_3.setText(str(dados_produto[0][0]))
+        user.lineEdit_5.setText(dados_produto[0][1])
+        user.lineEdit_6.setText(str(dados_produto[0][2]))
+        user.checkBox.setChecked(dados_produto[0][3])
+    except:
+        ero.show()
+        ero.label.setText("Click somente sobre o código do produto que deseja editar.")
+
 
 def salvar_edicao_produto():
-    codigo = user.lineEdit_4.text()
-    nome = user.lineEdit_5.text()
-    valor = user.lineEdit_6.text()
-    imprimir = user.checkBox.isChecked()
+    try:
 
-    banco = conexao.cursor()
-    cursor = conexao.cursor()
-    cursor.execute(f"UPDATE produtos SET nome = '{nome}', valor = '{valor}', imprimir = {imprimir} WHERE codigo_produto = {codigo}")
-    cursor.execute("commit;")
-    banco.close()
-    listar_produtos_cadastro()
-    # lista_produto()
-    user.lineEdit_4.setText('')
-    user.lineEdit_5.setText('')
-    user.lineEdit_6.setText('')
+        codigo_antigo = user.lineEdit_3.text()
+        codigo = user.lineEdit_4.text()
+        nome = user.lineEdit_5.text()
+        valor = user.lineEdit_6.text()
+        imprimir = user.checkBox.isChecked()
+
+        banco = conexao.cursor()
+        cursor = conexao.cursor()
+        cursor.execute(f"UPDATE produtos SET codigo_produto = {codigo}, nome = '{nome}', valor = '{valor}', imprimir = {imprimir} WHERE codigo_produto = {codigo_antigo}")
+        cursor.execute("commit;")
+        banco.close()
+        listar_produtos_cadastro()
+        # lista_produto()
+        user.lineEdit_4.setText('')
+        user.lineEdit_5.setText('')
+        user.lineEdit_6.setText('')
+    except:
+        ero.show()
+        ero.label.setText("Algo deu errado!")
 
 
 def add_produto():
@@ -144,29 +168,13 @@ def add_produto():
         add.lineEdit.setText("")
         if novo_valor < 0:
             ero.show()
+            ero.label.setText("Saldo insuficiente.")
+
     except:
         add.label_11.setText('Produto não encontrado!')
         add.lineEdit.setText('')
 
-    # if valor == '':
-    #     forme.lineEdit.setText('')
-    # else:
 
-    #     try:
-    #         banco = sqlite3.connect('banco_dados.db')
-    #         cursor = banco.cursor()
-    #         cursor.execute("INSERT INTO dados (nome, status) VALUES ('" + nome + "', '" + status + "')")
-    #         banco.commit()
-    #         banco.close()
-    #         print('dados inseridos com sucesso')
-
-    #     except sqlite3.Error as erro:
-    #         print("deu erro", erro)
-    #         print(nome, status)
-
-
-    # listar_dados()
-    # forme.lineEdit.setText("")
 def entrar_guarida():
     nome = forme.lineEdit_5.text()
     senha = forme.lineEdit_6.text()
@@ -179,6 +187,8 @@ def entrar_guarida():
 
         if nome == dados_user[0][1] and senha_verificada == True:
             forme.label.setText("")
+            forme.lineEdit_5.setText('')
+            forme.lineEdit_6.setText('')
             guarida.show()
 
         else:
@@ -217,6 +227,11 @@ def alterar_nome():
         
 def add_saldo():
     if guarida.lineEdit.text() != "" and guarida.lineEdit_2.text() != "":
+        data = datetime.datetime.now()
+        data_str = data.strftime("%d/%m/%y")
+        hora = datetime.datetime.now()
+        hora_str = hora.strftime("%H:%M:%S")
+        data_hora = data.strftime("%y/%m/%d") + " " +hora_str
         
         banco = conexao.cursor()
         cursor = conexao.cursor()
@@ -299,24 +314,33 @@ def janela_comanda():
         print('Comanda não encontrada!')
 
 def confirmar_pedido():
-    # if add.lineEdit.text() != "":
-        # lista_preco
-        # lista_produto
-        numero_comanda = forme.lineEdit_3.text()
-        banco = conexao.cursor()
-        cursor = conexao.cursor()
-        cursor.execute("SELECT valor FROM comandas WHERE numero_comanda = '"+numero_comanda+"'")
-        dados_comanda = cursor.fetchall()
-        valor_atual = dados_comanda[0][0]
-        soma = sum(lista_preco)  
-        saldo_final = valor_atual - soma
+    
+    data = datetime.datetime.now()
+    data_str = data.strftime("%d/%m/%y")
+    hora = datetime.datetime.now()
+    hora_str = hora.strftime("%H:%M:%S")
+    data_hora = data.strftime("%y/%m/%d") + " " +hora_str
+    numero_comanda = forme.lineEdit_3.text()
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
+    cursor.execute("SELECT valor FROM comandas WHERE numero_comanda = '"+numero_comanda+"'")
+    dados_comanda = cursor.fetchall()
+    valor_atual = dados_comanda[0][0]
+    soma = sum(lista_preco)  
+    saldo_final = valor_atual - soma
+
+    if soma > valor_atual:
+        ero.show()
+        ero.label.setText("Saldo insuficiente.")
+        add.close()
+    else:
 
         cursor2 = conexao.cursor()
         cursor2.execute("SELECT nome FROM comandas WHERE numero_comanda = '"+numero_comanda+"'")
         nome_comanda = cursor2.fetchall()
         n = 0
         for i in id_produto:
-            
+                
             cursor = conexao.cursor()
             cursor.execute("SELECT nome FROM produtos WHERE codigo_produto = '"+str(id_produto[n])+"'")
             dados_comanda = cursor.fetchall()
@@ -342,7 +366,7 @@ def confirmar_pedido():
         cursor.execute(f"UPDATE comandas SET valor = '{saldo_final:.2f}' WHERE numero_comanda = {numero_comanda}")
         cursor.execute("commit;")
         banco.close()
-        
+            
         add.close()
         listar_dados()
         indice = 0
@@ -353,7 +377,7 @@ def confirmar_pedido():
 
         add.label_5.setText("R$ 0.00")
         add.label_7.setText("R$ 0.00")
-        
+            
         add.listWidget.clear()
         add.listWidget_2.clear()
         forme.lineEdit_3.setText("")
@@ -366,14 +390,12 @@ def confirmar_pedido():
 def cupom():
     global lista_preco
     global lista_produto
-    # arquivo = open("cupom.txt", "w")
-    # arquivo.write(add.listWidget.text())
-    # arquivo.close()
+
     n = 0
     arquivo = open("cupom.txt", "w")
     for i in range(len(lista_produto)):
         
-        arquivo.write(str(lista_produto[n])+'       R$ '+ str(lista_preco[n])+'\n')
+        arquivo.write((str(lista_produto[n])+'__________')[0:16]+' R$ '+ str(lista_preco[n])+'\n')
         # arquivo.write("\n\n"+"\n\n")
         # arquivo.write(nome_comanda[0][0]+"\n\n")
         # arquivo.write("HORA: "+hora_str)
@@ -383,6 +405,8 @@ def cupom():
         n += 1
     total = add.label_5.text()
     arquivo.write("\nTotal:      "+total[0:10]+"\n")
+    arquivo.write("\n----CUPOM NÃO FISCAL----\n")
+
     
     arquivo.close()
 
@@ -436,6 +460,8 @@ def open_user():
         if nome == dados_user[0][1] and senha_verificada == True and dados_user[0][2] == '3':
             forme.label_9.setText("")
             user.show()
+            forme.lineEdit_9.setText('')
+            forme.lineEdit_10.setText('')
             listar_user()
             time.sleep(0.3)
             listar_produtos_cadastro()
@@ -520,7 +546,6 @@ def listar_produtos():
     forme.tableWidget_2.setRowCount(len(dados_lidos))
     forme.tableWidget_2.setColumnCount(3)
     banco.close()
-    # print(dados_lidos)
     
     for i in range(0, len(dados_lidos)):
         for j in range(0, 3):
@@ -531,6 +556,44 @@ def listar_produtos():
         for j in range(2, 3):
             forme.tableWidget_2.setItem(i, j, QtWidgets.QTableWidgetItem('R$  '+str(dados_lidos[i][j])))         
 
+def procurar_produto():
+    pesquisa = forme.lineEdit_4.text()
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
+    cursor.execute("SELECT *  FROM banco_dados.produtos WHERE nome like  '%"+pesquisa+"%'")
+    dados_lidos = cursor.fetchall()
+    forme.tableWidget_2.setRowCount(len(dados_lidos))
+    forme.tableWidget_2.setColumnCount(3)
+    banco.close()
+    
+    for i in range(0, len(dados_lidos)):
+        for j in range(0, 3):
+            forme.tableWidget_2.setItem(i, j, QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
+            
+    
+    for i in range(0, len(dados_lidos)):
+        for j in range(2, 3):
+            forme.tableWidget_2.setItem(i, j, QtWidgets.QTableWidgetItem('R$  '+str(dados_lidos[i][j])))
+    
+def procurar_produto_adm():
+    pesquisa = user.lineEdit_5.text()
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
+    cursor.execute("SELECT *  FROM banco_dados.produtos WHERE nome like  '%"+pesquisa+"%'")
+    dados_lidos = cursor.fetchall()
+    user.tableWidget_2.setRowCount(len(dados_lidos))
+    user.tableWidget_2.setColumnCount(3)
+    banco.close()
+    
+    for i in range(0, len(dados_lidos)):
+        for j in range(0, 3):
+            user.tableWidget_2.setItem(i, j, QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
+            
+    
+    for i in range(0, len(dados_lidos)):
+        for j in range(2, 3):
+            user.tableWidget_2.setItem(i, j, QtWidgets.QTableWidgetItem('R$  '+str(dados_lidos[i][j])))
+    
 # def excluir():
 #     linha = forme.tableWidget.currentRow()
 #     forme.tableWidget.removeRow(linha)
@@ -545,26 +608,6 @@ def listar_produtos():
 #     banco.close()
 #     listar_dados()
 
-
-# def editar():
-
-
-
-
-
-
-# def salvar():
-    # global numero_id
-    # nome = editor.lineEdit_2.text()
-    # status = editor.lineEdit_3.text()
-    # banco = sqlite3.connect('banco_dados.db')
-    # cursor = banco.cursor()
-    # cursor.execute("UPDATE dados SET nome = '{}', status = '{}' WHERE id = {}".format(nome, status, numero_id))
-    # banco.commit()
-
-    # listar_dados()
-    # banco.close()
-    # editor.close()
 
 app = QtWidgets.QApplication([])
 forme = uic.loadUi("comanda.ui")
@@ -581,6 +624,8 @@ forme.pushButton_7.clicked.connect(open_user)
 forme.pushButton_4.clicked.connect(entrar_guarida)
 forme.pushButton_2.clicked.connect(janela_comanda)
 forme.pushButton_5.clicked.connect(alterar_nome)
+forme.pushButton_3.clicked.connect(procurar_produto)
+
 
 add.pushButton_2.clicked.connect(confirmar_pedido)
 add.pushButton_3.clicked.connect(cancelar)
@@ -598,10 +643,15 @@ user.pushButton.clicked.connect(salvar_user)
 user.pushButton_3.clicked.connect(cadastro_produto)
 user.pushButton_4.clicked.connect(editar_produto)
 user.pushButton_5.clicked.connect(salvar_edicao_produto)
+user.pushButton_10.clicked.connect(procurar_produto_adm)
+
+# def key():
+# #     while True:
+#         keyboard.add_hotkey("esc",cancelar)
+# #         time.sleep(1)
+    
 
 
-
-
-
+# threading.Thread(target=key).start()
 app.exec_()
 
