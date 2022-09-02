@@ -1,9 +1,9 @@
 Comanda: 101
 
-FILÉ TIGELA BATATA
+BOLINHAS FRANGO
 
 mesa 25
 
-HORA: 15:35:15
-DATA: 23/08/22
+HORA: 17:04:21
+DATA: 01/09/22
           ...

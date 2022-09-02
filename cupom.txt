@@ -1,10 +1,6 @@
-BUCANHOS 12 ANOS R$ 16.99
-CAMARÃO PROMOÇÃO R$ 28.5
-CAMARÃO ALHO E Ó R$ 26.5
-ENTRADA 10______ R$ 10.0
-FILÉ TIGELA BATA R$ 12.9
-GARRAFA CAVEIRA  R$ 45.5
+SKOL TESTE______ R$ 5.98
+produto teste 0, R$ 1.0
 
-Total:       R$ 140.39
+Total:       R$ 6.98
 
 ----CUPOM NÃO FISCAL----

@@ -90,6 +90,48 @@ def cadastro_produto():
         user.lineEdit_6.setText('')
         listar_produtos_cadastro()
 
+def add_procurar():
+    pesquisa = add_tabela.lineEdit.text()
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
+    cursor.execute("SELECT nome  FROM banco_dados.produtos WHERE nome like  '%"+pesquisa+"%'")
+    dados_lidos = cursor.fetchall()
+    add_tabela.tableWidget_2.setRowCount(len(dados_lidos))
+    add_tabela.tableWidget_2.setColumnCount(1)
+    banco.close()
+    
+    for i in range(0, len(dados_lidos)):
+        for j in range(0, 1):
+            add_tabela.tableWidget_2.setItem(i, j, QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
+
+def open_add():
+    add_tabela.show()
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
+    cursor.execute("SELECT nome FROM produtos")
+    dados_lidos = cursor.fetchall()
+    add_tabela.tableWidget_2.setRowCount(len(dados_lidos))
+    add_tabela.tableWidget_2.setColumnCount(1)
+    banco.close()
+    
+    for i in range(0, len(dados_lidos)):
+        for j in range(0, 1):
+            add_tabela.tableWidget_2.setItem(i, j, QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
+
+
+def add_comanda():
+    codigo = add_tabela.tableWidget_2.currentItem().text()
+    print(codigo)
+    banco = conexao.cursor()
+    cursor = conexao.cursor()
+    cursor.execute(f"SELECT codigo_produto FROM produtos WHERE nome = '{codigo}'")
+    dados_produto = cursor.fetchall()
+    print(dados_produto[0][0])
+    add.lineEdit.setText(str(dados_produto[0][0]))
+    time.sleep(0.2)
+    add_produto()
+
+
 def editar_produto():
     try:
         codigo = user.tableWidget_2.currentItem().text()
@@ -615,6 +657,7 @@ add = uic.loadUi("add.ui")
 ero = uic.loadUi("erro.ui")
 user = uic.loadUi("user.ui")
 guarida = uic.loadUi("guarida.ui")
+add_tabela = uic.loadUi("add_tabela.ui")
 # historico = uic.loadUi("historico.ui")
 forme.show()
 
@@ -630,7 +673,7 @@ forme.pushButton_3.clicked.connect(procurar_produto)
 add.pushButton_2.clicked.connect(confirmar_pedido)
 add.pushButton_3.clicked.connect(cancelar)
 add.pushButton_4.clicked.connect(cupom)
-
+add.pushButton_5.clicked.connect(open_add)
 add.pushButton.clicked.connect(add_produto)
 
 guarida.pushButton_7.clicked.connect(zerar)
@@ -644,6 +687,11 @@ user.pushButton_3.clicked.connect(cadastro_produto)
 user.pushButton_4.clicked.connect(editar_produto)
 user.pushButton_5.clicked.connect(salvar_edicao_produto)
 user.pushButton_10.clicked.connect(procurar_produto_adm)
+
+add_tabela.pushButton.clicked.connect(add_procurar)
+add_tabela.pushButton_5.clicked.connect(add_comanda)
+
+
 
 # def key():
 # #     while True:

@@ -48,7 +48,7 @@ border:0px solid #566963;</string>
          <enum>QTabWidget::North</enum>
         </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>0</number>
         </property>
         <property name="iconSize">
          <size>
@@ -1123,6 +1123,225 @@ border:1px solid #566963;</string>
          <attribute name="title">
           <string>Relatorios</string>
          </attribute>
+         <widget class="QTableWidget" name="tableWidget_4">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>247</y>
+            <width>798</width>
+            <height>361</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(213, 209, 204);
+border-radius:5px;
+border:0px solid #566963;
+</string>
+          </property>
+          <property name="autoScrollMargin">
+           <number>16</number>
+          </property>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>39</number>
+          </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>160</number>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>EVENTO</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>N° COMANDA</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
+           <property name="background">
+            <color>
+             <red>0</red>
+             <green>0</green>
+             <blue>0</blue>
+            </color>
+           </property>
+           <property name="foreground">
+            <brush brushstyle="NoBrush">
+             <color alpha="255">
+              <red>0</red>
+              <green>25</green>
+              <blue>0</blue>
+             </color>
+            </brush>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>NOME</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>PRODUTO</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>VALOR</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>DATA</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+          </column>
+         </widget>
+         <widget class="QDateTimeEdit" name="dateTimeEdit">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>30</y>
+            <width>171</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(211, 211, 211);
+border-radius:5px;
+border:1px solid #566963;</string>
+          </property>
+         </widget>
+         <widget class="QDateTimeEdit" name="dateTimeEdit_3">
+          <property name="geometry">
+           <rect>
+            <x>290</x>
+            <y>30</y>
+            <width>171</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(211, 211, 211);
+border-radius:5px;
+border:1px solid #566963;</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_15">
+          <property name="geometry">
+           <rect>
+            <x>230</x>
+            <y>30</y>
+            <width>31</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Até</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_12">
+          <property name="geometry">
+           <rect>
+            <x>530</x>
+            <y>30</y>
+            <width>161</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	box-shadow:inset 0px 1px 3px 0px #91b8b3;
+	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
+	background-color:#768d87;
+	border-radius:5px;
+	border:1px solid #566963;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:11px 23px;
+	text-decoration:none;
+	text-shadow:0px -1px 0px #2b665e;
+}
+QPushButton:hover {
+	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
+	background-color:#6c7c7c;
+}
+QPushButton:active {
+	position:relative;
+	top:1px;
+}
+</string>
+          </property>
+          <property name="text">
+           <string>Gerar relatório</string>
+          </property>
+         </widget>
         </widget>
        </widget>
       </item>
@@ -1140,66 +1359,98 @@ border:1px solid #566963;</string>
  <resources/>
  <connections>
   <connection>
+   <sender>lineEdit_4</sender>
+   <signal>returnPressed()</signal>
+   <receiver>pushButton_3</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>228</x>
+     <y>74</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>339</x>
+     <y>84</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>lineEdit_3</sender>
    <signal>returnPressed()</signal>
    <receiver>pushButton_2</receiver>
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>203</x>
-     <y>114</y>
+     <x>177</x>
+     <y>96</y>
     </hint>
     <hint type="destinationlabel">
-     <x>322</x>
-     <y>117</y>
+     <x>314</x>
+     <y>94</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>lineEdit_10</sender>
-   <signal>editingFinished()</signal>
+   <signal>returnPressed()</signal>
    <receiver>pushButton_7</receiver>
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>261</x>
-     <y>225</y>
+     <x>244</x>
+     <y>232</y>
     </hint>
     <hint type="destinationlabel">
-     <x>341</x>
+     <x>370</x>
      <y>230</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>lineEdit_7</sender>
-   <signal>editingFinished()</signal>
+   <signal>returnPressed()</signal>
    <receiver>pushButton_5</receiver>
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>201</x>
-     <y>241</y>
+     <x>187</x>
+     <y>248</y>
     </hint>
     <hint type="destinationlabel">
-     <x>333</x>
-     <y>247</y>
+     <x>330</x>
+     <y>250</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>lineEdit_6</sender>
-   <signal>editingFinished()</signal>
+   <signal>returnPressed()</signal>
    <receiver>pushButton_4</receiver>
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>226</x>
+     <x>214</x>
      <y>538</y>
     </hint>
     <hint type="destinationlabel">
-     <x>320</x>
-     <y>538</y>
+     <x>322</x>
+     <y>542</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEdit_8</sender>
+   <signal>returnPressed()</signal>
+   <receiver>lineEdit_7</receiver>
+   <slot>selectAll()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>155</x>
+     <y>193</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>149</x>
+     <y>232</y>
     </hint>
    </hints>
   </connection>
