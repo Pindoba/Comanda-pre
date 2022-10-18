@@ -1,6 +1,6 @@
-SKOL TESTE______ R$ 5.98
-produto teste 0, R$ 1.0
+AGUA / GAS INDAI R$ 3.5
+BATATA FRITA____ R$ 11.9
 
-Total:       R$ 6.98
+Total:       R$ 15.4
 
 ----CUPOM NÃO FISCAL----

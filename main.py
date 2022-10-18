@@ -7,7 +7,7 @@ import pymysql
 import win32print
 import win32api
 import os
-import bcrypt
+# import bcrypt
 import util
 # import keyboard
 
@@ -92,13 +92,14 @@ def cadastro_produto():
 
 def add_procurar():
     pesquisa = add_tabela.lineEdit.text()
-    banco = conexao.cursor()
-    cursor = conexao.cursor()
-    cursor.execute("SELECT nome  FROM banco_dados.produtos WHERE nome like  '%"+pesquisa+"%'")
-    dados_lidos = cursor.fetchall()
+    # banco = conexao.cursor()
+    # cursor = conexao.cursor()
+    # cursor.execute("SELECT nome  FROM banco_dados.produtos WHERE nome like  '%"+pesquisa+"%'")
+    dados_lidos = util.banco( 'produtos',pesquisa,'nome').get()
+    # dados_lidos = cursor.fetchall()
     add_tabela.tableWidget_2.setRowCount(len(dados_lidos))
     add_tabela.tableWidget_2.setColumnCount(1)
-    banco.close()
+    # banco.close()
     
     for i in range(0, len(dados_lidos)):
         for j in range(0, 1):
@@ -118,11 +119,10 @@ def open_add():
         for j in range(0, 1):
             add_tabela.tableWidget_2.setItem(i, j, QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
 
-
+# add produto da tela de pesquisa na tela de compra da comanda
 def add_comanda():
     codigo = add_tabela.tableWidget_2.currentItem().text()
     print(codigo)
-    banco = conexao.cursor()
     cursor = conexao.cursor()
     cursor.execute(f"SELECT codigo_produto FROM produtos WHERE nome = '{codigo}'")
     dados_produto = cursor.fetchall()
@@ -181,18 +181,20 @@ def add_produto():
         global lista_preco
         global lista_produto
         numero_comanda = forme.lineEdit_3.text()
+        
+        dados_comanda = util.Get('comandas',numero_comanda,'valor', 'numero_comanda').get()
 
-        banco = conexao.cursor()
-        cursor = conexao.cursor()
-        cursor.execute(f"SELECT valor FROM comandas WHERE numero_comanda ={numero_comanda}")
-        dados_comanda = cursor.fetchall()
+        # cursor = conexao.cursor()
+        # cursor.execute(f"SELECT valor FROM comandas WHERE numero_comanda ={numero_comanda}")
+        # dados_comanda = cursor.fetchall()
         valor_atual = dados_comanda[0][0]   
+        print(valor_atual)
         numero_produto = add.lineEdit.text()
-       
-        banco = conexao.cursor()
-        cursor = conexao.cursor()
-        cursor.execute(f"SELECT nome, valor, imprimir FROM produtos WHERE codigo_produto = {numero_produto}")
-        dados_produto = cursor.fetchall()
+
+        dados_produto = util.Get('produtos',numero_produto,'nome, valor, imprimir', 'codigo_produto').get()
+        # cursor = conexao.cursor()
+        # cursor.execute(f"SELECT nome, valor, imprimir FROM produtos WHERE codigo_produto = {numero_produto}")
+        # dados_produto = cursor.fetchall()
         lista_produto.append(dados_produto[0][0])
         lista_preco.append(dados_produto[0][1])
         imprimir = dados_produto[0][2]
@@ -221,7 +223,6 @@ def entrar_guarida():
     nome = forme.lineEdit_5.text()
     senha = forme.lineEdit_6.text()
     try:
-        banco = conexao.cursor()
         cursor = conexao.cursor()
         cursor.execute(f"SELECT senha, nome FROM users WHERE nome = '{nome}'")
         dados_user = cursor.fetchall()
@@ -241,13 +242,14 @@ def entrar_guarida():
 def alterar_nome():
     try:
         numero_comanda = forme.lineEdit_8.text()
-        banco = conexao.cursor()
-        cursor = conexao.cursor()
-        cursor.execute(f"SELECT nome FROM comandas WHERE numero_comanda = {numero_comanda}")
-        dados_comanda = cursor.fetchall()
+        # banco = conexao.cursor()
+        # cursor = conexao.cursor()
+        # cursor.execute(f"SELECT nome FROM comandas WHERE numero_comanda = {numero_comanda}")
+        # dados_comanda = cursor.fetchall()
         nome = forme.lineEdit_7.text()       
             
         if nome != "":
+
         
             banco = conexao.cursor()
             cursor = conexao.cursor()
@@ -275,10 +277,11 @@ def add_saldo():
         hora_str = hora.strftime("%H:%M:%S")
         data_hora = data.strftime("%y/%m/%d") + " " +hora_str
         
-        banco = conexao.cursor()
-        cursor = conexao.cursor()
-        cursor.execute("SELECT valor, nome FROM comandas WHERE numero_comanda = '"+guarida.lineEdit.text()+"'")
-        dados_comanda = cursor.fetchall()
+        dados_comanda = util.Get('comandas',guarida.lineEdit.text(), 'valor, nome','numero_comanda').get()
+        # banco = conexao.cursor()
+        # cursor = conexao.cursor()
+        # cursor.execute("SELECT valor, nome FROM comandas WHERE numero_comanda = '"+guarida.lineEdit.text()+"'")
+        # dados_comanda = cursor.fetchall()
         valor_atual = dados_comanda[0][0]
         nome_db = dados_comanda[0][1]
         nome = guarida.lineEdit_4.text()
@@ -319,10 +322,11 @@ def add_saldo():
 def ler():
     try:
         if guarida.lineEdit.text() != "" or guarida.lineEdit_2.text() != "":
-            banco = conexao.cursor()
-            cursor = conexao.cursor()
-            cursor.execute("SELECT valor, nome FROM comandas WHERE numero_comanda = '"+guarida.lineEdit.text()+"'")
-            dados_comanda = cursor.fetchall()
+            dados_comanda = util.Get('comandas',guarida.lineEdit.text(),'valor, nome','numero_comanda').get()
+            # banco = conexao.cursor()
+            # cursor = conexao.cursor()
+            # cursor.execute("SELECT valor, nome FROM comandas WHERE numero_comanda = '"+guarida.lineEdit.text()+"'")
+            # dados_comanda = cursor.fetchall()
             valor = dados_comanda[0][0]
             nome = dados_comanda[0][1]
             guarida.label.setText('Comanda: '+guarida.lineEdit.text())
@@ -336,10 +340,11 @@ def ler():
 def janela_comanda():
     try:
         forme.label_11.setText('')
-        banco = conexao.cursor()
-        cursor = conexao.cursor()
-        cursor.execute("SELECT valor, nome FROM comandas WHERE numero_comanda = '"+forme.lineEdit_3.text()+"'")
-        dados_comanda = cursor.fetchall()
+        dados_comanda = util.Get('comandas',forme.lineEdit_3.text(),'valor, nome','numero_comanda').get()
+        # banco = conexao.cursor()
+        # cursor = conexao.cursor()
+        # cursor.execute("SELECT valor, nome FROM comandas WHERE numero_comanda = '"+forme.lineEdit_3.text()+"'")
+        # dados_comanda = cursor.fetchall()
         valor_atual = dados_comanda[0][0]
         add.show()
         lista_preco.clear()
@@ -353,7 +358,7 @@ def janela_comanda():
         add.label.setText("N°: "+forme.lineEdit_3.text())
     except:
         forme.label_11.setText('Comanda não encontrada!')
-        print('Comanda não encontrada!')
+        # print('Comanda não encontrada!')
 
 def confirmar_pedido():
     
@@ -515,13 +520,15 @@ def open_user():
     # user.show()
 
 def listar_dados():
-    banco = conexao.cursor()
-    cursor = conexao.cursor()
-    cursor.execute("SELECT * FROM comandas")
-    dados_lidos = cursor.fetchall()
+    get = util.Get('comandas','','*')
+    dados_lidos = get.get_all()
+    # banco = conexao.cursor()
+    # cursor = conexao.cursor()
+    # cursor.execute("SELECT * FROM comandas")
+    # dados_lidos = cursor.fetchall()
     forme.tableWidget.setRowCount(len(dados_lidos))
     forme.tableWidget.setColumnCount(3)
-    banco.close()
+    # banco.close()
     
     for i in range(0, len(dados_lidos)):
         for j in range(0, 3):
@@ -546,13 +553,14 @@ def listar_user():
                 user.tableWidget.setItem(i, j, QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
 
 def historico():
-    banco = conexao.cursor()
-    cursor = conexao.cursor()
-    cursor.execute("SELECT * FROM historicos")
-    dados_lidos = cursor.fetchall()
+    dados_lidos = util.Get('historicos','','*').get_all()
+    # banco = conexao.cursor()
+    # cursor = conexao.cursor()
+    # cursor.execute("SELECT * FROM historicos")
+    # dados_lidos = cursor.fetchall()
     forme.tableWidget_3.setRowCount(len(dados_lidos))
     forme.tableWidget_3.setColumnCount(6)
-    banco.close()
+    # banco.close()
     
     for i in range(0, len(dados_lidos)):
         for j in range(0, 6):

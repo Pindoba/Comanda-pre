@@ -1,9 +1,9 @@
 Comanda: 101
 
-BOLINHAS FRANGO
+BATATA FRITA
 
-mesa 25
+WILLLL
 
-HORA: 17:04:21
-DATA: 01/09/22
+HORA: 15:56:27
+DATA: 18/10/22
           ...
